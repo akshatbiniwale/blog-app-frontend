@@ -1,9 +1,10 @@
 import './App.css';
+import HomePage from './pages/HomePage';
 
 const App = () => {
   return (
     <div className='App'>
-      <h1 className='text-red-500'>hello world!</h1>
+      <HomePage />
     </div>
   )
 }
