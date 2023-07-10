@@ -7,10 +7,11 @@ import CTA from "./container/CTA";
 function HomePage() {
     return (
         <div>
-            <MainLayout />
-            <Hero />
-            <Articles />
-            <CTA />
+            <MainLayout>
+                <Hero />
+                <Articles />
+                <CTA />
+            </MainLayout>
         </div>
     );
 }
