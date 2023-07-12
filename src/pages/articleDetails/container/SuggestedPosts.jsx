@@ -30,7 +30,7 @@ const SuggestedPosts = ({ className, heading, posts = [], tags }) => {
                                     {
                                         day: "numeric",
                                         month: "short",
-                                        year: "numeric",
+                                        year: "numeric"
                                     }
                                 )}
                             </span>
