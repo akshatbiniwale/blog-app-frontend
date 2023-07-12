@@ -5,6 +5,7 @@ import { images } from "../../constants";
 import { Link } from "react-router-dom";
 import SuggestedPosts from "./container/SuggestedPosts";
 import CommentsContainer from "../../components/comments/CommentsContainer";
+import SocialShareButtons from "../../components/comments/SocialShareButtons";
 
 const breadCrumbsData = [
     { name: "Home", link: "/" },
@@ -83,12 +84,23 @@ const ArticleDetails = () => {
                     </div>
                     <CommentsContainer className="mt-10" loggedInUserId="a" />
                 </article>
-                <SuggestedPosts
-                    className="mt-8 lg:mt-0 lg:max-w-xs"
-                    tags={tagsData}
-                    heading="Latest Articles"
-                    posts={postsData}
-                />
+                <div>
+                    <SuggestedPosts
+                        className="mt-8 lg:mt-0 lg:max-w-xs"
+                        tags={tagsData}
+                        heading="Latest Articles"
+                        posts={postsData}
+                    />
+                    <div className="mt-7">
+                        <h2 className="font-roboto font-medium text-dark-hard mb-4 md:text-xl">
+                            Share On:
+                        </h2>
+                        <SocialShareButtons
+                            url={encodeURI("https://github.com/akshatbiniwale")}
+                            title={encodeURIComponent("Akshat Biniwale")}
+                        />
+                    </div>
+                </div>
             </section>
         </MainLayout>
     );
