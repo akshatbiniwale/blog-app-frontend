@@ -21,7 +21,11 @@ const ArticleCard = ({ className }) => {
                 </p>
                 <div className="flex flex-nowrap justify-between items-center mt-6">
                     <div className="flex items-center gap-2 md:gap-x-2.5">
-                        <img src={images.PostProfileImage} alt="post-profile" className="w-9 h-9 md:w-10 md:h-10" />
+                        <img
+                            src={images.PostProfileImage}
+                            alt="post-profile"
+                            className="w-9 h-9 md:w-10 md:h-10"
+                        />
                         <div className="flex flex-col">
                             <h4 className="font-bold italic text-dark-soft text-sm md:text-base">
                                 Voila Manisa
@@ -30,11 +34,15 @@ const ArticleCard = ({ className }) => {
                                 <span className="bg-[#36B37E] w-fit bg-opacity-20 p-1.5 rounded-full">
                                     <BsCheckLg className="w-1.5 h-1.5 text-[#36B37E]" />
                                 </span>
-                                <span className="italic text-dark-light text-xs md:text-sm">Verified writer</span>
+                                <span className="italic text-dark-light text-xs md:text-sm">
+                                    Verified writer
+                                </span>
                             </div>
                         </div>
                     </div>
-                    <span className="font font-bold text-dark-light italic text-sm md:text-base">02May</span>
+                    <span className="font font-bold text-dark-light italic text-sm md:text-base">
+                        02May
+                    </span>
                 </div>
             </div>
         </div>
