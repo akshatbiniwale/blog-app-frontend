@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/home/HomePage";
 import ArticleDetailsPage from "./pages/articleDetails/ArticleDetailsPage";
 import RegistrationPage from "./pages/register/RegistrationPage";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
     return (
@@ -12,6 +13,7 @@ const App = () => {
                 <Route path="/blog/:id" element={<ArticleDetailsPage />} />
                 <Route path="/register" element={<RegistrationPage />} />
             </Routes>
+            <Toaster />
         </div>
     );
 };

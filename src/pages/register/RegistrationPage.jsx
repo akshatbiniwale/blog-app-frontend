@@ -2,12 +2,27 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import MainLayout from "../../components/MainLayout";
+import { useMutation } from "@tanstack/react-query";
+import { signUp } from "../../services/index/users";
+import toasts, { toast } from "react-hot-toast";
 
 const labelClassName = "text-[#5A7184] font-semibold block";
 const inputClassName =
     "placeholder:text-[#959EAD] text-dark-hard mb-3 rounded-lg px-5 py-4 font-semibold block outline-none border";
 
 const RegistrationPage = () => {
+    const { mutate, isLoading } = useMutation({
+        mutationFn: ({ name, email, password }) => {
+            return signUp({ name, email, password });
+        },
+        onSuccess: (data) => {
+            console.log(data);
+        },
+        onError: (error) => {
+            toast.error(error.message)
+            console.log(error);
+        },
+    });
     const {
         register,
         handleSubmit,
@@ -24,7 +39,8 @@ const RegistrationPage = () => {
     });
 
     const submitHandler = (data) => {
-        console.log(data);
+        const { name, email, password } = data;
+        mutate({ name, email, password });
     };
 
     return (
@@ -180,7 +196,7 @@ const RegistrationPage = () => {
                         </Link>
                         <button
                             type="submit"
-                            disabled={!isValid}
+                            disabled={!isValid || isLoading}
                             className="disabled:opacity-70 disabled:cursor-not-allowed bg-primary text-white font-bold text-lg py-4 px-8 w-full rounded-lg my-6"
                         >
                             Register
