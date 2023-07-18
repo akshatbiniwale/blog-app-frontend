@@ -1,28 +1,43 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import MainLayout from "../../components/MainLayout";
+import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { signUp } from "../../services/index/users";
-import toasts, { toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { userAction } from "../../store/reducers/userReducer";
+
+import MainLayout from "../../components/MainLayout";
 
 const labelClassName = "text-[#5A7184] font-semibold block";
 const inputClassName =
     "placeholder:text-[#959EAD] text-dark-hard mb-3 rounded-lg px-5 py-4 font-semibold block outline-none border";
 
 const RegistrationPage = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const userState = useSelector((state) => state.user);
+
     const { mutate, isLoading } = useMutation({
         mutationFn: ({ name, email, password }) => {
             return signUp({ name, email, password });
         },
         onSuccess: (data) => {
-            console.log(data);
+            dispatch(userAction.setUserInfo(data));
+            localStorage.setItem("account", JSON.stringify(data));
         },
         onError: (error) => {
-            toast.error(error.message)
+            toast.error(error.message);
             console.log(error);
         },
     });
+
+    useEffect(() => {
+        if (userState.userInfo) {
+            navigate("/");
+        }
+    }, [navigate, userState.userInfo]);
+
     const {
         register,
         handleSubmit,
