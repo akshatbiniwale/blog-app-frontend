@@ -79,6 +79,7 @@ const Header = () => {
 
     const logoutHandler = () => {
         dispatch(logout());
+        navigate("/");
     };
 
     return (
@@ -126,7 +127,7 @@ const Header = () => {
                                             );
                                         }}
                                     >
-                                        <span>Profile</span>
+                                        <span>Account</span>
                                         <MdOutlineKeyboardArrowDown />
                                     </button>
                                     <div
@@ -136,10 +137,12 @@ const Header = () => {
                                     >
                                         <ul className="bg-dark-soft lg:bg-transparent text-center flex flex-col shadow-lg rounded-lg overflow-hidden">
                                             <button
-                                                onClick={logoutHandler}
+                                                onClick={() => {
+                                                    navigate("/profile");
+                                                }}
                                                 className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white lg:text-dark-soft"
                                             >
-                                                Dashboard
+                                                Profile Page
                                             </button>
                                             <button
                                                 onClick={logoutHandler}
@@ -153,7 +156,12 @@ const Header = () => {
                             </div>
                         </div>
                     ) : (
-                        <button onClick={()=>{navigate("/login")}} className="mt-5 lg:mt-0 border-2 border-blue-500 px-6 py-2 rounded-full text-blue-500 font-semibold hover:bg-blue-500 hover:text-white transition-all duration-300">
+                        <button
+                            onClick={() => {
+                                navigate("/login");
+                            }}
+                            className="mt-5 lg:mt-0 border-2 border-blue-500 px-6 py-2 rounded-full text-blue-500 font-semibold hover:bg-blue-500 hover:text-white transition-all duration-300"
+                        >
                             Sign In
                         </button>
                     )}
