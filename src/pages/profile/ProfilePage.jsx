@@ -80,10 +80,10 @@ const ProfilePage = () => {
 
     return (
         <MainLayout>
-            <section className="container mx-auto px-72 py-16 flex flex-row">
-                <ProfilePicture avatar={profileData?.avatar} />
-                <div className="w-full max-w-sm mx-auto">
-                    <form onSubmit={handleSubmit(submitHandler)}>
+            <section className="container mx-auto px-5 py-10 xl:px-40">
+                <div className="w-full max-w-sm mx-auto lg:flex lg:flex-row lg:min-w-full lg:justify-evenly lg:items-center">
+                    <ProfilePicture avatar={profileData?.avatar} />
+                    <form onSubmit={handleSubmit(submitHandler)} className="lg:w-96">
                         <div className="flex flex-col mb-6 w-full">
                             <label htmlFor="name" className={labelClassName}>
                                 Name
@@ -177,7 +177,11 @@ const ProfilePage = () => {
                         </div>
                         <button
                             type="submit"
-                            disabled={!isValid || profileIsLoading || updateProfileIsLoading}
+                            disabled={
+                                !isValid ||
+                                profileIsLoading ||
+                                updateProfileIsLoading
+                            }
                             className="disabled:opacity-70 disabled:cursor-not-allowed bg-primary text-white font-bold text-lg py-4 px-8 w-full rounded-lg mb-6"
                         >
                             Save Changes

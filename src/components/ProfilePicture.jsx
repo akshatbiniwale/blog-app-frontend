@@ -22,8 +22,8 @@ const ProfilePicture = ({ avatar }) => {
                     <CropEasy photo={photo} setOpenCrop={setOpenCrop} />,
                     document.getElementById("root-overlay")
                 )}
-            <div className="w-1/3 flex flex-col items-center gap-x-auto mb-10">
-                <div className="relative w-44 h-44 rounded-full outline outline-offset-2 outline-1 outline-primary overflow-hidden my-7">
+            <div className="w-full flex items-center gap-x-4 mb-7 lg:mb-10 lg:flex-col lg:w-1/4">
+                <div className="relative lg:my-7 lg:w-44 lg:h-44 w-20 h-20 rounded-full outline outline-offset-2 outline-1 outline-primary overflow-hidden">
                     <label
                         htmlFor="profilePicture"
                         className="cursor-pointer absolute inset-0 rounded-full bg-transparent"
