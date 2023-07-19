@@ -20,7 +20,11 @@ const ProfilePage = () => {
     const queryClient = useQueryClient();
     const userState = useSelector((state) => state.user);
 
-    const { data: profileData, isLoading: profileIsLoading } = useQuery({
+    const {
+        data: profileData,
+        isLoading: profileIsLoading,
+        isLoading: updateProfileIsLoading,
+    } = useQuery({
         queryFn: () => {
             return getUserProfile({ token: userState.userInfo.token });
         },
@@ -76,9 +80,9 @@ const ProfilePage = () => {
 
     return (
         <MainLayout>
-            <section className="container mx-auto px-5 py-10">
+            <section className="container mx-auto px-72 py-16 flex flex-row">
+                <ProfilePicture avatar={profileData?.avatar} />
                 <div className="w-full max-w-sm mx-auto">
-                    <ProfilePicture avatar={profileData?.avatar} />
                     <form onSubmit={handleSubmit(submitHandler)}>
                         <div className="flex flex-col mb-6 w-full">
                             <label htmlFor="name" className={labelClassName}>
@@ -173,7 +177,7 @@ const ProfilePage = () => {
                         </div>
                         <button
                             type="submit"
-                            disabled={!isValid || profileIsLoading}
+                            disabled={!isValid || profileIsLoading || updateProfileIsLoading}
                             className="disabled:opacity-70 disabled:cursor-not-allowed bg-primary text-white font-bold text-lg py-4 px-8 w-full rounded-lg mb-6"
                         >
                             Save Changes
