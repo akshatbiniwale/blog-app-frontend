@@ -1,7 +1,7 @@
 {
     "name": "frontend",
     "version": "0.1.0",
-    "proxy": "http://localhost:${process.env.REACT_APP_PORT}",
+    "proxy": "http://localhost:5000",
     "private": true,
     "dependencies": {
         "@reduxjs/toolkit": "^1.9.5",
