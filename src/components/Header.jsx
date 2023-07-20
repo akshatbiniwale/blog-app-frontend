@@ -5,14 +5,21 @@ import { AiOutlineClose } from "react-icons/ai";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../store/actions/users";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const navItemsInfo = [
-    { name: "Home", type: "link" },
-    { name: "Articles", type: "link" },
-    { name: "Pages", type: "dropdown", items: ["About us", "Contact us"] },
-    { name: "Pricing", type: "link" },
-    { name: "FaQ", type: "link" },
+    { name: "Home", type: "link", href: "/" },
+    { name: "Articles", type: "link", href: "/articles" },
+    {
+        name: "Pages",
+        type: "dropdown",
+        items: [
+            { title: "About us", href: "/about" },
+            { title: "Contact us", href: "/contact" },
+        ],
+    },
+    { name: "Pricing", type: "link", href: "/pricing" },
+    { name: "FaQ", type: "link", href: "/faq" },
 ];
 
 const NavItem = (props) => {
@@ -25,9 +32,9 @@ const NavItem = (props) => {
         <li className="relative group">
             {props.item.type === "link" ? (
                 <>
-                    <a href="/" className="px-4 py-2">
+                    <Link to={props.item.href} className="px-4 py-2">
                         {props.item.name}
-                    </a>
+                    </Link>
                     <span className="cursor-pointer text-blue-500 absolute transition-all duration-500 font-bold right-0 top-0 group-hover:right-[90%] opacity-0 group-hover:opacity-100">
                         /
                     </span>
@@ -48,13 +55,13 @@ const NavItem = (props) => {
                     >
                         <ul className="bg-dark-soft lg:bg-transparent text-center flex flex-col shadow-lg rounded-lg overflow-hidden">
                             {props.item.items.map((page) => (
-                                <a
-                                    href="/"
+                                <Link
+                                    to={page.href}
                                     key={page}
                                     className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white lg:text-dark-soft"
                                 >
-                                    {page}
-                                </a>
+                                    {page.title}
+                                </Link>
                             ))}
                         </ul>
                     </div>
@@ -85,13 +92,13 @@ const Header = () => {
     return (
         <section className="sticky top-0 right-0 left-0 z-50 bg-white">
             <header className="container mx-auto px-5 flex justify-between py-4 items-center">
-                <div>
+                <Link to="/">
                     <img
                         className="w-16 lg:w-24"
                         src={images.Logo}
                         alt="logo"
                     />
-                </div>
+                </Link>
                 <div className="lg:hidden z-50">
                     {navIsVisible ? (
                         <AiOutlineClose
