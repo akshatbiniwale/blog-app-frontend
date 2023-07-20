@@ -32,6 +32,8 @@ const RegistrationPage = () => {
         },
     });
 
+    // toast is a library that helps you show error and affirmation messages to the user
+
     useEffect(() => {
         if (userState.userInfo) {
             navigate("/");
@@ -52,6 +54,8 @@ const RegistrationPage = () => {
         },
         mode: "onChange",
     });
+
+    // useForm is a hook which helps you validate forms and make user experience much better, you don't have to explicity validate forms, it does it for you
 
     const submitHandler = (data) => {
         const { name, email, password } = data;

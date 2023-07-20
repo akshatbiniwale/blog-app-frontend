@@ -31,6 +31,15 @@ const ProfilePage = () => {
         queryKey: ["profile"],
     });
 
+    /* Why use useQuery hook instead of directly using getUserProfile? 
+    Ans - 
+    
+    State management: The useQuery hook automatically manages the state of the query, including the isLoading and error properties. This means that we don't have to worry about manually managing the state of the query ourselves.
+    
+    Caching: The useQuery hook can cache the results of the query, so that we don't have to fetch the data from the server every time the component renders. This can improve performance, especially for components that are rendered frequently.
+    
+    Refetching: The useQuery hook allows us to refetch the data from the server if the data changes. This is useful for components that need to always show the latest data. */
+
     const { mutate } = useMutation({
         mutationFn: ({ name, email, password }) => {
             return updateProfile({
@@ -83,7 +92,10 @@ const ProfilePage = () => {
             <section className="container mx-auto px-5 py-10 xl:px-40">
                 <div className="w-full max-w-sm mx-auto lg:flex lg:flex-row lg:min-w-full lg:justify-evenly lg:items-center">
                     <ProfilePicture avatar={profileData?.avatar} />
-                    <form onSubmit={handleSubmit(submitHandler)} className="lg:w-96">
+                    <form
+                        onSubmit={handleSubmit(submitHandler)}
+                        className="lg:w-96"
+                    >
                         <div className="flex flex-col mb-6 w-full">
                             <label htmlFor="name" className={labelClassName}>
                                 Name

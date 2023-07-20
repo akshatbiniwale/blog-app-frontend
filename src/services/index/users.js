@@ -1,5 +1,8 @@
 import axios from "axios";
 
+// making api requests to the backend
+// Axios is a promise-based HTTP client for JavaScript. It makes sending asynchronous HTTP requests to REST endpoints easier and helps you perform CRUD operations.
+
 export const signUp = async ({ name, email, password }) => {
     try {
         const { data } = await axios.post("/api/users/register", {

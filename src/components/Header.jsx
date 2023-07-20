@@ -57,7 +57,7 @@ const NavItem = (props) => {
                             {props.item.items.map((page) => (
                                 <Link
                                     to={page.href}
-                                    key={page}
+                                    key={page.title}
                                     className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white lg:text-dark-soft"
                                 >
                                     {page.title}

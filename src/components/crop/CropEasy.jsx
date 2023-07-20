@@ -90,7 +90,7 @@ const CropEasy = ({ photo, setOpenCrop }) => {
                         id="zoomRange"
                         min={1}
                         max={3}
-                        step={0.1}
+                        step={0.01}
                         value={zoom}
                         onChange={(e) => setZoom(e.target.value)}
                         className="w-full h-1 mb-6 bg-gray-200 rounded-lg appearance-none cursor-pointer range-sm"

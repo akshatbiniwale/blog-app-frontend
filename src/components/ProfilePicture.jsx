@@ -37,6 +37,17 @@ const ProfilePicture = ({ avatar }) => {
         },
     });
 
+    /*
+        Why use useMutation instead of useEffect? 
+        Ans - 
+        
+        The useMutation hook is specifically designed for executing GraphQL mutations. The useEffect hook can be used to execute any kind of side effect, but the useMutation hook provides some additional features that make it easier to work with GraphQL mutations. For example, the useMutation hook automatically handles the loading and error states of the mutation, and it also provides a way to get the results of the mutation.
+
+        The useMutation hook is more efficient than the useEffect hook. The useMutation hook only executes the mutation when the component is mounted or when the mutation's variables change. The useEffect hook, on the other hand, can execute the side effect every time the component renders.
+     */
+
+    // queryClient.invalidateQueries(key) is used to clear the cache with the provided key and then fetch the new document from the backend
+
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         setPhoto({ url: URL.createObjectURL(file), file: file });
