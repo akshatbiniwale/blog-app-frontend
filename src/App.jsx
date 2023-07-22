@@ -12,7 +12,7 @@ const App = () => {
         <div className="App font-opensans">
             <Routes>
                 <Route index path="/" element={<HomePage />} />
-                <Route path="/blog/:id" element={<ArticleDetailsPage />} />
+                <Route path="/blog/:slug" element={<ArticleDetailsPage />} />
                 <Route path="/register" element={<RegistrationPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/profile" element={<ProfilePage />} />

@@ -1,17 +1,22 @@
-import React from "react";
+import Bold from "@tiptap/extension-bold";
+import Document from "@tiptap/extension-document";
+import Paragraph from "@tiptap/extension-paragraph";
+import Italic from "@tiptap/extension-italic";
+import Text from "@tiptap/extension-text";
 import MainLayout from "../../components/MainLayout";
-import { BreadCrumbs } from "../../components/BreadCrumbs";
-import { images } from "../../constants";
-import { Link } from "react-router-dom";
+import images from "../../constants/images";
 import SuggestedPosts from "./container/SuggestedPosts";
 import CommentsContainer from "../../components/comments/CommentsContainer";
 import SocialShareButtons from "../../components/comments/SocialShareButtons";
+import stables from "./../../constants/stables";
+import parse from "html-react-parser";
 
-const breadCrumbsData = [
-    { name: "Home", link: "/" },
-    { name: "Blog", link: "/blog" },
-    { name: "Article", link: "/blog/1" },
-];
+import { useState } from "react";
+import { BreadCrumbs } from "../../components/BreadCrumbs";
+import { Link, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getOnePost } from "../../services/index/posts";
+import { generateHTML } from "@tiptap/html";
 
 const postsData = [
     {
@@ -51,6 +56,34 @@ const tagsData = [
 ];
 
 const ArticleDetails = () => {
+    const { slug } = useParams();
+
+    const [breadCrumbsData, setBreadCrumbsData] = useState([]);
+    const [body, setBody] = useState(null);
+
+    const { data } = useQuery({
+        queryFn: () => getOnePost({ slug }),
+        onSuccess: (data) => {
+            setBreadCrumbsData([
+                { name: "Home", link: "/" },
+                { name: "Blog", link: "/blog" },
+                { name: "Article", link: `/blog/${slug}` },
+            ]);
+            setBody(
+                parse(
+                    generateHTML(data?.body, [
+                        Document,
+                        Paragraph,
+                        Text,
+                        Bold,
+                        Italic,
+                    ])
+                )
+            );
+        },
+        queryKey: ["blog", slug],
+    });
+
     return (
         <MainLayout>
             <section className="container mx-auto max-w-5xl flex flex-col px-5 py-5 lg:flex-row lg:gap-x-5 lg:items-start">
@@ -58,30 +91,27 @@ const ArticleDetails = () => {
                     <BreadCrumbs data={breadCrumbsData} />
                     <img
                         className="rounded-xl w-full"
-                        src={images.PostImage}
-                        alt="post"
+                        src={
+                            data?.photo
+                                ? stables.uploadFolderBaseUrl + data?.photo
+                                : images.noImage
+                        }
+                        alt={data?.title}
                     />
-                    <Link
-                        to="/blog?category=selectedCategory"
-                        className="text-primary text-sm font-roboto inline-block mt-4 md:text-base"
-                    >
-                        EDUCATION
-                    </Link>
-                    <h1 className="text-xl font-medium font-roboto mt-4 text-dark-hard md:text-[26px]">
-                        Help children get better education
-                    </h1>
-                    <div className="mt-4 text-dark-soft">
-                        <p className="leading-7">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua. Egestas purus viverra accumsan
-                            in nisl nisi. Arcu cursus vitae congue mauris
-                            rhoncus aenean vel elit scelerisque. In egestas erat
-                            imperdiet sed euismod nisi porta lorem mollis. Morbi
-                            tristique senectus et netus. Mattis pellentesque id
-                            nibh tortor id aliquet lectus proin.
-                        </p>
+                    <div className="mt-4 flex gap-2">
+                        {data?.categories.map((category) => (
+                            <Link
+                                to={`/blog?category=${category.name}`}
+                                className="text-primary text-sm font-roboto inline-block md:text-base"
+                            >
+                                {category.name}
+                            </Link>
+                        ))}
                     </div>
+                    <h1 className="text-xl font-medium font-roboto mt-4 text-dark-hard md:text-[26px]">
+                        {data?.title}
+                    </h1>
+                    <div className="mt-4 prose prose-sm sm:prose-base">{body}</div>
                     <CommentsContainer className="mt-10" loggedInUserId="a" />
                 </article>
                 <div>
