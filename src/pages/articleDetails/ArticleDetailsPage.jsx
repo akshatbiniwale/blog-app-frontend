@@ -17,7 +17,7 @@ import { useState } from "react";
 import { BreadCrumbs } from "../../components/BreadCrumbs";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { getOnePost } from "../../services/index/posts";
+import { getAllPosts, getOnePost } from "../../services/index/posts";
 import { generateHTML } from "@tiptap/html";
 import { useSelector } from "react-redux";
 
@@ -48,16 +48,6 @@ const postsData = [
     },
 ];
 
-const tagsData = [
-    "Medical",
-    "Lifestyle",
-    "Learn",
-    "Healthy",
-    "Food",
-    "Diet",
-    "Education",
-];
-
 const ArticleDetails = () => {
     const { slug } = useParams();
     const userState = useSelector((state) => state.user);
@@ -85,6 +75,11 @@ const ArticleDetails = () => {
             );
         },
         queryKey: ["blog", slug],
+    });
+
+    const { data: postsData } = useQuery({
+        queryFn: () => getAllPosts(),
+        queryKey: ["post"],
     });
 
     return (
@@ -132,7 +127,7 @@ const ArticleDetails = () => {
                     <div>
                         <SuggestedPosts
                             className="mt-8 lg:mt-0 lg:max-w-xs"
-                            tags={tagsData}
+                            tags={data?.tags}
                             heading="Latest Articles"
                             posts={postsData}
                         />
@@ -142,9 +137,9 @@ const ArticleDetails = () => {
                             </h2>
                             <SocialShareButtons
                                 url={encodeURI(
-                                    "https://github.com/akshatbiniwale"
+                                    window.location.href
                                 )}
-                                title={encodeURIComponent("Akshat Biniwale")}
+                                title={encodeURIComponent(data?.title)}
                             />
                         </div>
                     </div>
