@@ -3,7 +3,11 @@ import Comment from "./Comment";
 
 import { useState } from "react";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { createComment, updateComment } from "../../services/index/comments";
+import {
+    createComment,
+    deleteComment,
+    updateComment,
+} from "../../services/index/comments";
 import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 
@@ -39,22 +43,33 @@ const CommentsContainer = ({
             },
         });
 
-    const { mutate: mutateUpdateComment } =
-        useMutation({
-            mutationFn: ({ desc, commentId, token }) => {
-                return updateComment({ desc, commentId, token });
-            },
-            onSuccess: () => {
-                toast.success(
-                    "Comment updated"
-                );
-                queryClient.invalidateQueries(["blog", postSlug]);
-            },
-            onError: (error) => {
-                toast.error(error.message);
-                console.log("error");
-            },
-        });
+    const { mutate: mutateUpdateComment } = useMutation({
+        mutationFn: ({ desc, commentId, token }) => {
+            return updateComment({ desc, commentId, token });
+        },
+        onSuccess: () => {
+            toast.success("Comment updated");
+            queryClient.invalidateQueries(["blog", postSlug]);
+        },
+        onError: (error) => {
+            toast.error(error.message);
+            console.log("error");
+        },
+    });
+
+    const { mutate: mutateDeleteComment } = useMutation({
+        mutationFn: ({ commentId, token }) => {
+            return deleteComment({ commentId, token });
+        },
+        onSuccess: () => {
+            toast.success("Comment deleted");
+            queryClient.invalidateQueries(["blog", postSlug]);
+        },
+        onError: (error) => {
+            toast.error(error.message);
+            console.log("error");
+        },
+    });
 
     const addCommentHandler = (value, parent = null, replyOnUser = null) => {
         mutateNewComment({
@@ -76,7 +91,9 @@ const CommentsContainer = ({
         setAffectedCommented(null);
     };
 
-    const deleteCommentHandler = (commentId) => {};
+    const deleteCommentHandler = (commentId) => {
+        mutateDeleteComment({ commentId, token: userState.userInfo.token });
+    };
 
     return (
         <div className={`${className}`}>
