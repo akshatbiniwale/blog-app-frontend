@@ -5,6 +5,7 @@ const CommentForm = ({
     formSubmitHandler,
     formCancelHandler = null,
     initialText = "",
+    loading = false,
 }) => {
     const [value, setValue] = useState(initialText);
 
@@ -35,7 +36,8 @@ const CommentForm = ({
                         </button>
                     )}
                     <button
-                        className="px-6 py-2.5 rounded-lg bg-primary text-white font-semibold"
+                        disabled={loading}
+                        className="px-6 py-2.5 rounded-lg bg-primary text-white font-semibold disabled:opacity-70 disabled:cursor-not-allowed"
                         type="submit"
                     >
                         {btnLabel}
