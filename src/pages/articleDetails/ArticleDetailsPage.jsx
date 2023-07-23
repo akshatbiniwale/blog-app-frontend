@@ -10,6 +10,8 @@ import CommentsContainer from "../../components/comments/CommentsContainer";
 import SocialShareButtons from "../../components/comments/SocialShareButtons";
 import stables from "./../../constants/stables";
 import parse from "html-react-parser";
+import ArticleDetailSkeleton from "./components/ArticleDetailSkeleton";
+import ErrorMessage from "../../components/ErrorMessage";
 
 import { useState } from "react";
 import { BreadCrumbs } from "../../components/BreadCrumbs";
@@ -17,8 +19,7 @@ import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getOnePost } from "../../services/index/posts";
 import { generateHTML } from "@tiptap/html";
-import ArticleDetailSkeleton from "./components/ArticleDetailSkeleton";
-import ErrorMessage from "../../components/ErrorMessage";
+import { useSelector } from "react-redux";
 
 const postsData = [
     {
@@ -59,7 +60,7 @@ const tagsData = [
 
 const ArticleDetails = () => {
     const { slug } = useParams();
-
+    const userState = useSelector((state) => state.user);
     const [breadCrumbsData, setBreadCrumbsData] = useState([]);
     const [body, setBody] = useState(null);
 
@@ -123,7 +124,8 @@ const ArticleDetails = () => {
                         </div>
                         <CommentsContainer
                             className="mt-10"
-                            loggedInUserId="a"
+                            loggedInUserId={userState.userInfo._id}
+                            comments={data.comments}
                         />
                     </article>
                     <div>
