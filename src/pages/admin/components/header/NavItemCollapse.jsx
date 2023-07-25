@@ -40,8 +40,8 @@ const NavItemCollapse = ({
             </div>
             <div className="collapse-content">
                 <div className="mt-2 flex flex-col gap-y-2">
-                    {content.map((item) => (
-                        <Link to={item.link}>
+                    {content.map((item, index) => (
+                        <Link to={item.link} key={index}>
                             <div className="text-sm ml-3 my-1 font-semibold text-[#A5A5A5]">
                                 {item.title}
                             </div>

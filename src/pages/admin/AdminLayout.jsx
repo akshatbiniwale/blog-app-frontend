@@ -11,7 +11,6 @@ const AdminLayout = () => {
     const navigate = useNavigate();
 
     const {
-        data: profileData,
         isLoading: profileIsLoading,
     } = useQuery({
         queryFn: () => {
@@ -19,7 +18,7 @@ const AdminLayout = () => {
         },
         queryKey: ["profile"],
         onSuccess: (data) => {
-            if (!profileData?.admin) {
+            if (!(data?.admin)) {
                 navigate("/");
                 toast.error("Admin access restricted");
             }

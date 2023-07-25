@@ -21,33 +21,6 @@ import { getAllPosts, getOnePost } from "../../services/index/posts";
 import { generateHTML } from "@tiptap/html";
 import { useSelector } from "react-redux";
 
-const postsData = [
-    {
-        _id: "1",
-        image: images.PostImage,
-        title: "Help children get better education",
-        createdAt: "2023-01-28T15:35:53.607+0000",
-    },
-    {
-        _id: "2",
-        image: images.PostImage,
-        title: "Help children get better education",
-        createdAt: "2023-01-28T15:35:53.607+0000",
-    },
-    {
-        _id: "3",
-        image: images.PostImage,
-        title: "Help children get better education",
-        createdAt: "2023-01-28T15:35:53.607+0000",
-    },
-    {
-        _id: "4",
-        image: images.PostImage,
-        title: "Help children get better education",
-        createdAt: "2023-01-28T15:35:53.607+0000",
-    },
-];
-
 const ArticleDetails = () => {
     const { slug } = useParams();
     const userState = useSelector((state) => state.user);
@@ -129,7 +102,7 @@ const ArticleDetails = () => {
                             className="mt-8 lg:mt-0 lg:max-w-xs"
                             tags={data?.tags}
                             heading="Latest Articles"
-                            posts={postsData}
+                            posts={postsData?.data}
                         />
                         <div className="mt-7">
                             <h2 className="font-roboto font-medium text-dark-hard mb-4 md:text-xl">
