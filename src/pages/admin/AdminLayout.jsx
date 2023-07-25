@@ -13,14 +13,13 @@ const AdminLayout = () => {
     const {
         data: profileData,
         isLoading: profileIsLoading,
-        isLoading: updateProfileIsLoading,
     } = useQuery({
         queryFn: () => {
             return getUserProfile({ token: userState.userInfo.token });
         },
         queryKey: ["profile"],
         onSuccess: (data) => {
-            if (!data?.admin) {
+            if (!profileData?.admin) {
                 navigate("/");
                 toast.error("Admin access restricted");
             }
