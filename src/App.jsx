@@ -11,6 +11,7 @@ import Admin from "./pages/admin/components/screens/Admin";
 import Comment from "./pages/admin/components/screens/comments/Comment";
 import NewPost from "./pages/admin/components/screens/posts/NewPost";
 import ManagePost from "./pages/admin/components/screens/posts/ManagePost";
+import EditPost from "./pages/admin/components/screens/posts/EditPost";
 
 const App = () => {
     return (
@@ -26,6 +27,7 @@ const App = () => {
                     <Route path="comments" element={<Comment />} />
                     <Route path="posts/new" element={<NewPost />} />
                     <Route path="posts/manage" element={<ManagePost />} />
+                    <Route path="posts/manage/edit/:slug" element={<EditPost />} />
                 </Route>
             </Routes>
             <Toaster />

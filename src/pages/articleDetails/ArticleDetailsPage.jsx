@@ -1,24 +1,18 @@
-import Bold from "@tiptap/extension-bold";
-import Document from "@tiptap/extension-document";
-import Paragraph from "@tiptap/extension-paragraph";
-import Italic from "@tiptap/extension-italic";
-import Text from "@tiptap/extension-text";
 import MainLayout from "../../components/MainLayout";
 import images from "../../constants/images";
 import SuggestedPosts from "./container/SuggestedPosts";
 import CommentsContainer from "../../components/comments/CommentsContainer";
 import SocialShareButtons from "../../components/comments/SocialShareButtons";
 import stables from "./../../constants/stables";
-import parse from "html-react-parser";
 import ArticleDetailSkeleton from "./components/ArticleDetailSkeleton";
 import ErrorMessage from "../../components/ErrorMessage";
+import parseJsonToHtml from "../../utils/parseJsonToHtml";
 
 import { useState } from "react";
 import { BreadCrumbs } from "../../components/BreadCrumbs";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getAllPosts, getOnePost } from "../../services/index/posts";
-import { generateHTML } from "@tiptap/html";
 import { useSelector } from "react-redux";
 
 const ArticleDetails = () => {
@@ -35,17 +29,7 @@ const ArticleDetails = () => {
                 { name: "Blog", link: "/blog" },
                 { name: "Article", link: `/blog/${slug}` },
             ]);
-            setBody(
-                parse(
-                    generateHTML(data?.body, [
-                        Document,
-                        Paragraph,
-                        Text,
-                        Bold,
-                        Italic,
-                    ])
-                )
-            );
+            setBody(parseJsonToHtml(data?.body));
         },
         queryKey: ["blog", slug],
     });
@@ -109,9 +93,7 @@ const ArticleDetails = () => {
                                 Share On:
                             </h2>
                             <SocialShareButtons
-                                url={encodeURI(
-                                    window.location.href
-                                )}
+                                url={encodeURI(window.location.href)}
                                 title={encodeURIComponent(data?.title)}
                             />
                         </div>

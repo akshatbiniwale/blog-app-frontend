@@ -65,7 +65,9 @@ const ManagePosts = () => {
     };
 
     const deletePostHandler = ({ slug, token }) => {
-        mutateDeletePost({ slug, token });
+        if (window.confirm("Do you want to delete the post?")) {
+            mutateDeletePost({ slug, token });
+        }
     };
 
     return (
@@ -93,7 +95,7 @@ const ManagePosts = () => {
                                     />
                                 </div>
                                 <button
-                                    className="flex-shrink-0 px-4 py-2 text-base font-semibold text-white bg-purple-600 rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-200"
+                                    className="flex-shrink-0 px-4 py-2 text-base font-semibold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-200"
                                     type="submit"
                                 >
                                     Filter
@@ -169,7 +171,7 @@ const ManagePosts = () => {
                                                                     src={
                                                                         post?.image
                                                                             ? stables.uploadFolderBaseUrl +
-                                                                              post?.image
+                                                                                post?.image
                                                                             : images.noImage
                                                                     }
                                                                     alt={
@@ -212,21 +214,21 @@ const ManagePosts = () => {
                                                     <div className="flex gap-x-2">
                                                         {post.tags.length > 0
                                                             ? post.tags.map(
-                                                                  (
-                                                                      tag,
-                                                                      index
-                                                                  ) => (
-                                                                      <p key={tag}>
-                                                                          {tag}
-                                                                          {post
-                                                                              .tags
-                                                                              .length -
-                                                                              1 !==
-                                                                              index &&
-                                                                              ","}
-                                                                      </p>
-                                                                  )
-                                                              )
+                                                                        (
+                                                                            tag,
+                                                                            index
+                                                                    ) => (
+                                                                        <p key={tag}>
+                                                                            {tag}
+                                                                            {post
+                                                                                .tags
+                                                                                .length -
+                                                                                1 !==
+                                                                                index &&
+                                                                                ","}
+                                                                        </p>
+                                                                    )
+                                                                )
                                                             : "No tags"}
                                                     </div>
                                                 </td>
