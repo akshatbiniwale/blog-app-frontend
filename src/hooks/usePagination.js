@@ -11,27 +11,26 @@ export const usePagination = ({
         // our core logic goes here
         const totalPageNumbers = siblingCount + 5;
 
-        // state 1: if the number of pages is less than the page numbers
+        // State 1: if the number of pages is less than the page numbers
         if (totalPageNumbers >= totalPageCount) {
             return range(1, totalPageCount);
         }
 
-        // calculating the left and right siblings index
+        // calculating the left and right sibling index
         const leftSiblingIndex = Math.max(currentPage - siblingCount, 1);
         const rightSiblingIndex = Math.min(
             currentPage + siblingCount,
             totalPageCount
         );
 
-        // to check whether we want to show left dots or right dots, or both of them
-        // not to show the dot when there is just one page between sibling and page limit
+        // check whether we want to show left dots or right dots, or both of them
         const shouldShowLeftDots = leftSiblingIndex > 2;
         const shouldShowRightDots = rightSiblingIndex < totalPageCount - 2;
 
         const firstPageIndex = 1;
         const lastPageIndex = totalPageCount;
 
-        // state 2: only right dots to be shown
+        // State 2: only right dots to be shown
         if (!shouldShowLeftDots && shouldShowRightDots) {
             let leftItemCount = 3 + 2 * siblingCount;
             let leftRange = range(1, leftItemCount);
@@ -39,7 +38,7 @@ export const usePagination = ({
             return [...leftRange, DOTS, totalPageCount];
         }
 
-        // state 3: only left dots to be shown
+        // State 3: only left dots to be shown
         if (shouldShowLeftDots && !shouldShowRightDots) {
             let rightItemCount = 3 + 2 * siblingCount;
             let rightRange = range(
@@ -50,7 +49,7 @@ export const usePagination = ({
             return [firstPageIndex, DOTS, ...rightRange];
         }
 
-        // state 4: right and left dots to be shown
+        // State 4: Both left and right dots to be shown
         if (shouldShowLeftDots && shouldShowRightDots) {
             let middleRange = range(leftSiblingIndex, rightSiblingIndex);
             return [firstPageIndex, DOTS, middleRange, DOTS, lastPageIndex];
@@ -62,6 +61,6 @@ export const usePagination = ({
 
 function range(start, end) {
     const length = end - start + 1;
-    // returns array with specified length and values of (start + index)
-    return Array.from({ length }, (index) => index + start);
+
+    return Array.from({ length }, (value, index) => index + start);
 }

@@ -20,8 +20,7 @@ const Pagination = ({
     const onNext = () => {
         onPageChange(currentPage + 1);
     };
-
-    const onPrev = () => {
+    const onPrevious = () => {
         onPageChange(currentPage - 1);
     };
 
@@ -33,8 +32,8 @@ const Pagination = ({
                 <button
                     disabled={currentPage === 1}
                     type="button"
-                    onClick={onPrev}
                     className="w-full p-4 text-base text-gray-600 bg-white border rounded-l-xl hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-60"
+                    onClick={onPrevious}
                 >
                     <svg
                         width="9"
@@ -47,33 +46,39 @@ const Pagination = ({
                         <path d="M1427 301l-531 531 531 531q19 19 19 45t-19 45l-166 166q-19 19-45 19t-45-19l-742-742q-19-19-19-45t19-45l742-742q19-19 45-19t45 19l166 166q19 19 19 45t-19 45z"></path>
                     </svg>
                 </button>
-                {paginationRange.map((pageNumber) => {
+                {paginationRange.map((pageNumber, index) => {
                     if (pageNumber === DOTS) {
                         return (
-                            <button className="cursor-default w-full px-4 py-2 text-base bg-white border">
+                            <button
+                                key={index}
+                                className="cursor-default w-full px-4 py-2 text-base bg-white border"
+                            >
                                 &#8230;
                             </button>
                         );
                     }
+
                     return (
                         <button
+                            key={index}
                             type="button"
-                            onClick={onPageChange(pageNumber)}
                             className={`w-full px-4 py-2 text-base border ${
                                 pageNumber === currentPage
                                     ? "text-white bg-blue-500"
-                                    : "text-gray-600 hover:bg-gray-100"
+                                    : "text-gray-600 bg-white hover:bg-gray-100"
                             }`}
+                            onClick={() => onPageChange(pageNumber)}
                         >
                             {pageNumber}
                         </button>
                     );
                 })}
+
                 <button
                     disabled={currentPage === lastPage}
                     type="button"
-                    onClick={onNext}
                     className="w-full p-4 text-base text-gray-600 bg-white border-t border-b border-r rounded-r-xl hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-60"
+                    onClick={onNext}
                 >
                     <svg
                         width="9"

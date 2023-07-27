@@ -7,9 +7,8 @@ export const getAllPosts = async (searchKeyword = "", page = 1, limit = 12) => {
         );
         return { data, headers };
     } catch (error) {
-        if (error.response && error.response.data.message) {
+        if (error.response && error.response.data.message)
             throw new Error(error.response.data.message);
-        }
         throw new Error(error.message);
     }
 };
@@ -22,6 +21,23 @@ export const getOnePost = async ({ slug }) => {
         if (error.response && error.response.data.message) {
             throw new Error(error.response.data.message);
         }
+        throw new Error(error.message);
+    }
+};
+
+export const deletePost = async ({ slug, token }) => {
+    try {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+
+        const { data } = await axios.delete(`/api/posts/${slug}`, config);
+        return data;
+    } catch (error) {
+        if (error.response && error.response.data.message)
+            throw new Error(error.response.data.message);
         throw new Error(error.message);
     }
 };
