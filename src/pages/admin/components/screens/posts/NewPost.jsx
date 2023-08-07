@@ -28,6 +28,10 @@ import {
 } from "react-icons/pi";
 import React, { useState } from "react";
 import { HiOutlineCamera } from "react-icons/hi";
+import { useMutation } from "@tanstack/react-query";
+import { createPost } from "../../../../../services/index/posts";
+import { useSelector } from "react-redux";
+import { toast } from "react-hot-toast";
 
 const MenuBar = ({ editor }) => {
     const className = "text-white py-3 text-xl";
@@ -216,6 +220,25 @@ const NewPost = () => {
     const inputClassName =
         "placeholder:text-[#959EAD] w-full text-dark-hard my-5 rounded-lg px-3 py-2 font-semibold block outline-none border";
     const [photo, setPhoto] = useState(null);
+    const [title, setTitle] = useState("");
+    const [caption, setCaption] = useState("");
+    const userState = useSelector((state) => state.user);
+
+    const { mutate } = useMutation({
+        mutationFn: ({ postData, token }) => {
+            return createPost({
+                postData,
+                token,
+            });
+        },
+        onSuccess: () => {
+            toast.success("Post created");
+        },
+        onError: (error) => {
+            toast.error(error.message);
+            console.log(error);
+        },
+    });
 
     const editor = useEditor({
         extensions: [
@@ -250,8 +273,38 @@ const NewPost = () => {
         setPhoto(file);
     };
 
+    const titleChangeHandler = (event) => {
+        setTitle(event.target.value);
+    };
+
+    const captionChangeHandler = (event) => {
+        setCaption(event.target.value);
+    };
+
+    const submitHandler = (event) => {
+        event.preventDefault();
+
+        const postData = {
+            title,
+            caption,
+            body: editor.getJSON(),
+        };
+
+        let updatedData = new FormData();
+
+        updatedData.append("postPicture", photo);
+        updatedData.append("document", JSON.stringify(postData));
+        
+        mutate({ postData: updatedData, token: userState.userInfo.token });
+
+        setPhoto(null);
+        setTitle("");
+        setCaption("");
+        editor.commands.clearContent();
+    };
+
     return (
-        <section className="container pb-7">
+        <form className="container pb-7" onSubmit={submitHandler}>
             {/* heading */}
             <h1 className="text-2xl font-semibold mb-10">New Post</h1>
             {/* title and caption */}
@@ -263,6 +316,8 @@ const NewPost = () => {
                     type="text"
                     id="title"
                     className={inputClassName}
+                    value={title}
+                    onChange={titleChangeHandler}
                     placeholder="Title goes here.."
                 />
                 <label htmlFor="caption" className={labelClassName}>
@@ -272,6 +327,8 @@ const NewPost = () => {
                     type="text"
                     id="caption"
                     placeholder="Caption goes here.."
+                    value={caption}
+                    onChange={captionChangeHandler}
                     className={inputClassName}
                 />
             </div>
@@ -312,9 +369,7 @@ const NewPost = () => {
                 />
             </div>
             {/* tags */}
-            <div>
-                
-            </div>
+            <div></div>
             {/* submit button */}
             <div className="mx-10 pt-7 flex flex-row justify-between">
                 <button
@@ -327,7 +382,7 @@ const NewPost = () => {
                     Discard
                 </button>
             </div>
-        </section>
+        </form>
     );
 };
 
