@@ -14,12 +14,12 @@ import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getAllPosts, getOnePost } from "../../services/index/posts";
 import { useSelector } from "react-redux";
+import Editor from "./../../components/editor/Editor";
 
 const ArticleDetails = () => {
     const { slug } = useParams();
     const userState = useSelector((state) => state.user);
     const [breadCrumbsData, setBreadCrumbsData] = useState([]);
-    const [body, setBody] = useState(null);
 
     const { data, isLoading, isError } = useQuery({
         queryFn: () => getOnePost({ slug }),
@@ -29,7 +29,6 @@ const ArticleDetails = () => {
                 { name: "Blog", link: "/blog" },
                 { name: "Article", link: `/blog/${slug}` },
             ]);
-            setBody(parseJsonToHtml(data?.body));
         },
         queryKey: ["blog", slug],
     });
@@ -71,12 +70,14 @@ const ArticleDetails = () => {
                         <h1 className="text-xl font-medium font-roboto mt-4 text-dark-hard md:text-[26px]">
                             {data?.title}
                         </h1>
-                        <div className="mt-4 prose prose-sm sm:prose-base">
-                            {body}
+                        <div className="w-full">
+                            {!isLoading && !isError && (
+                                <Editor content={data?.body} editable={false} />
+                            )}
                         </div>
                         <CommentsContainer
                             className="mt-10"
-                            loggedInUserId={userState.userInfo._id}
+                            loggedInUserId={userState?.userInfo?._id}
                             comments={data.comments}
                             postSlug={slug}
                         />

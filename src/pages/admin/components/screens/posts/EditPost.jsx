@@ -9,6 +9,7 @@ import { stables } from "../../../../../constants";
 import { HiOutlineCamera } from "react-icons/hi";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
+import Editor from "../../../../../components/editor/Editor";
 
 const EditPost = () => {
     const { slug } = useParams();
@@ -69,13 +70,13 @@ const EditPost = () => {
                 return file;
             };
             const picture = await urlToObject(
-                stables.UPLOAD_FOLDER_BASE_URL + data?.photo
+                stables.uploadFolderBaseUrl + data?.photo
             );
 
             updatedData.append("postPicture", picture);
         }
 
-        updatedData.append("document", JSON.stringify({}));
+        updatedData.append("document", JSON.stringify({ body }));
 
         mutateUpdatePost({
             updatedData,
@@ -131,7 +132,11 @@ const EditPost = () => {
                             id="postPicture"
                             onChange={handleFileChange}
                         />
-                        <button type="button" className="w-fit bg-red-500 text-sm text-white mt-5 font-semibold rounded-lg px-2 py-1" onClick={handleDeleteImage}>
+                        <button
+                            type="button"
+                            className="w-fit bg-red-500 text-sm text-white mt-5 font-semibold rounded-lg px-2 py-1"
+                            onClick={handleDeleteImage}
+                        >
                             Delete Image
                         </button>
                         <div className="mt-4 flex gap-2">
@@ -147,8 +152,14 @@ const EditPost = () => {
                         <h1 className="text-xl font-medium font-roboto mt-4 text-dark-hard md:text-[26px]">
                             {data?.title}
                         </h1>
-                        <div className="mt-4 prose prose-sm sm:prose-base">
-                            {body}
+                        <div className="w-full my-7 flex flex-col border-2 border-primary rounded-xl">
+                            {!isLoading && !isError && (
+                                <Editor
+                                    content={data?.body}
+                                    editable={true}
+                                    onDataChange={(data) => setBody(data)}
+                                />
+                            )}
                         </div>
                         <button
                             disabled={isLoadingUpdatePost}

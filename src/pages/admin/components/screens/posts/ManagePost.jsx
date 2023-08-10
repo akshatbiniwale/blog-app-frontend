@@ -1,5 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getAllPosts, deletePost } from "../../../../../services/index/posts";
+import {
+    getAllPostsOfUser,
+    deletePost,
+} from "../../../../../services/index/posts";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
@@ -23,8 +26,13 @@ const ManagePosts = () => {
         isFetching,
         refetch,
     } = useQuery({
-        queryFn: () => getAllPosts(searchKeyword, currentPage),
-        queryKey: ["posts"],
+        queryFn: () =>
+            getAllPostsOfUser(
+                userState.userInfo.token,
+                searchKeyword,
+                currentPage
+            ),
+        queryKey: ["postsOfUser"],
     });
 
     const { mutate: mutateDeletePost, isLoading: isLoadingDeletePost } =
@@ -72,12 +80,12 @@ const ManagePosts = () => {
 
     return (
         <div>
-            <h1 className="text-2xl font-semibold">Mange Posts</h1>
+            <h1 className="text-2xl font-semibold">Manage Posts</h1>
 
             <div className="w-full px-4 mx-auto">
                 <div className="py-8">
                     <div className="flex flex-row justify-between w-full mb-1 sm:mb-0">
-                        <h2 className="text-2xl leading-tight">Users</h2>
+                        <h2 className="text-2xl leading-tight">Your Posts</h2>
                         <div className="text-end">
                             <form
                                 onSubmit={submitSearchKeywordHandler}
@@ -169,9 +177,9 @@ const ManagePosts = () => {
                                                             >
                                                                 <img
                                                                     src={
-                                                                        post?.image
+                                                                        post?.photo
                                                                             ? stables.uploadFolderBaseUrl +
-                                                                                post?.image
+                                                                              post?.photo
                                                                             : images.noImage
                                                                     }
                                                                     alt={
@@ -214,21 +222,25 @@ const ManagePosts = () => {
                                                     <div className="flex gap-x-2">
                                                         {post.tags.length > 0
                                                             ? post.tags.map(
-                                                                        (
-                                                                            tag,
-                                                                            index
-                                                                    ) => (
-                                                                        <p key={tag}>
-                                                                            {tag}
-                                                                            {post
-                                                                                .tags
-                                                                                .length -
-                                                                                1 !==
-                                                                                index &&
-                                                                                ","}
-                                                                        </p>
-                                                                    )
-                                                                )
+                                                                  (
+                                                                      tag,
+                                                                      index
+                                                                  ) => (
+                                                                      <p
+                                                                          key={
+                                                                              tag
+                                                                          }
+                                                                      >
+                                                                          {tag}
+                                                                          {post
+                                                                              .tags
+                                                                              .length -
+                                                                              1 !==
+                                                                              index &&
+                                                                              ","}
+                                                                      </p>
+                                                                  )
+                                                              )
                                                             : "No tags"}
                                                     </div>
                                                 </td>
