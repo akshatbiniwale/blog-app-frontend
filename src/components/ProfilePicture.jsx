@@ -83,7 +83,7 @@ const ProfilePicture = ({ avatar }) => {
                     >
                         {avatar ? (
                             <img
-                                src={stables.uploadFolderBaseUrl + avatar}
+                                src={avatar}
                                 alt="profile"
                                 className="w-full h-full object-cover"
                             />
