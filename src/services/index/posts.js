@@ -28,6 +28,7 @@ export const getAllPostsOfUser = async (
 export const getAllPosts = async () => {
     try {
         const { data } = await axios.get(`/api/posts`);
+        console.log(data);
         return { data };
     } catch (error) {
         if (error.response && error.response.data.message)

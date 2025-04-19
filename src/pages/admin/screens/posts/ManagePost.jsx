@@ -2,15 +2,15 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
     getAllPostsOfUser,
     deletePost,
-} from "../../../../../services/index/posts";
+} from "../../../../services/index/posts";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
 
-import images from "./../../../../../constants/images";
-import stables from "./../../../../../constants/stables";
-import Pagination from "./../../../../../components/Pagination";
+import images from "./../../../../constants/images";
+import stables from "./../../../../constants/stables";
+import Pagination from "./../../../../components/Pagination";
 
 let isFirstRun = true;
 

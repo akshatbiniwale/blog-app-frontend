@@ -1,15 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
-import { getOnePost, updatePost, getAllCategories } from "../../../../../services/index/posts";
+import { getOnePost, updatePost } from "../../../../services/index/posts";
+import { getAllCategories } from "../../../../services/index/postCategories";
 import { Link, useParams } from "react-router-dom";
 import MultiSelectTagDropdown from "../../components/select-dropdown/MultiSelectTagDropdown";
-import ArticleDetailSkeleton from "../../../../articleDetails/components/ArticleDetailSkeleton";
-import ErrorMessage from "../../../../../components/ErrorMessage";
-import parseJsonToHtml from "../../../../../utils/parseJsonToHtml";
+import ArticleDetailSkeleton from "../../../articleDetails/components/ArticleDetailSkeleton";
+import ErrorMessage from "../../../../components/ErrorMessage";
+import parseJsonToHtml from "../../../../utils/parseJsonToHtml";
 import { HiOutlineCamera } from "react-icons/hi";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
-import Editor from "../../../../../components/editor/Editor";
+import Editor from "../../../../components/editor/Editor";
 import { categoryToOption, filterCategories } from './../../../../utils/multiSelectTagUtils';
 
 const promiseOptions = async (inputValue) => {
