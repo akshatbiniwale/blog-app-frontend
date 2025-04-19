@@ -7,11 +7,11 @@ import { Toaster } from "react-hot-toast";
 import LoginPage from "./pages/login/LoginPage";
 import ProfilePage from "./pages/profile/ProfilePage";
 import AdminLayout from "./pages/admin/AdminLayout";
-import Admin from "./pages/admin/components/screens/Admin";
-import Comment from "./pages/admin/components/screens/comments/Comment";
-import NewPost from "./pages/admin/components/screens/posts/NewPost";
-import ManagePost from "./pages/admin/components/screens/posts/ManagePost";
-import EditPost from "./pages/admin/components/screens/posts/EditPost";
+import Admin from "./pages/admin/screens/Admin";
+import Comment from "./pages/admin/screens/comments/Comment";
+import NewPost from "./pages/admin/screens/posts/NewPost";
+import ManagePost from "./pages/admin/screens/posts/ManagePost";
+import EditPost from "./pages/admin/screens/posts/EditPost";
 
 const App = () => {
     return (
