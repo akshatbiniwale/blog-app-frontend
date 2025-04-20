@@ -11,7 +11,10 @@ import { HiOutlineCamera } from "react-icons/hi";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import Editor from "../../../../components/editor/Editor";
-import { categoryToOption, filterCategories } from './../../../../utils/multiSelectTagUtils';
+import {
+	categoryToOption,
+	filterCategories,
+} from "./../../../../utils/multiSelectTagUtils";
 
 const promiseOptions = async (inputValue) => {
 	const categoriesData = await getAllCategories();
@@ -19,91 +22,94 @@ const promiseOptions = async (inputValue) => {
 };
 
 const EditPost = () => {
-    const { slug } = useParams();
-    const queryClient = useQueryClient();
-    const userState = useSelector((state) => state.user);
-    const [photo, setPhoto] = useState(null);
-    const [body, setBody] = useState(null);
-    const [initialPhoto, setInitialPhoto] = useState(null);
-    const [categories, setCategories] = useState(null);
+	const inputClassName =
+		"placeholder:text-[#959EAD] w-full text-dark-hard my-5 rounded-lg px-3 py-2 font-semibold block outline-none border";
+	const labelClassName = "text-black font-semibold block text-xl";
+	const { slug } = useParams();
+	const queryClient = useQueryClient();
+	const userState = useSelector((state) => state.user);
+	const [photo, setPhoto] = useState(null);
+	const [body, setBody] = useState(null);
+	const [initialPhoto, setInitialPhoto] = useState(null);
+	const [categories, setCategories] = useState(null);
+	const [title, setTitle] = useState("");
+	const [caption, setCaption] = useState("");
 
-    const { data, isLoading, isError } = useQuery({
-        queryFn: () => getOnePost({ slug }),
-        queryKey: ["blog", slug],
-    });
+	const { data, isLoading, isError } = useQuery({
+		queryFn: () => getOnePost({ slug }),
+		queryKey: ["blog", slug],
+	});
 
-    const { mutate: mutateUpdatePost, isLoading: isLoadingUpdatePost } =
-        useMutation({
-            mutationFn: ({ updatedData, slug, token }) => {
-                return updatePost({
-                    updatedData,
-                    slug,
-                    token,
-                });
-            },
-            onSuccess: (data) => {
-                queryClient.invalidateQueries(["blog", slug]);
-                toast.success("Post is updated");
-            },
-            onError: (error) => {
-                toast.error(error.message);
-                console.log(error);
-            },
-        });
+	const { mutate: mutateUpdatePost, isLoading: isLoadingUpdatePost } =
+		useMutation({
+			mutationFn: ({ updatedData, slug, token }) => {
+				console.log("updatedData", updatedData);
+				return updatePost({
+					updatedData,
+					slug,
+					token,
+				});
+			},
+			onSuccess: (data) => {
+				queryClient.invalidateQueries(["blog", slug]);
+				toast.success("Post is updated");
+				setPhoto(null);
+			},
+			onError: (error) => {
+				toast.error(error.message);
+				console.log(error);
+			},
+		});
 
-    useEffect(() => {
-        if (!isLoading && !isError) {
-            setInitialPhoto(data?.photo);
-            setBody(parseJsonToHtml(data?.body));
-            setCategories(data.categories.map((item) => item.value));
-        }
-    }, [data, isError, isLoading]);
+	useEffect(() => {
+		if (!isLoading && !isError) {
+			setInitialPhoto(data?.photo);
+			setBody(data?.body);
+			setCategories(data.categories.map((item) => item.value));
+			setTitle(data?.title || "");
+			setCaption(data?.caption || "");
+		}
+	}, [data, isError, isLoading]);
 
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        setPhoto(file);
-    };
+	const handleFileChange = (event) => {
+		const file = event.target.files[0];
+		setPhoto(file);
+	};
 
-    const handleUpdatePost = async () => {
-        let updatedData = new FormData();
+	const titleChangeHandler = (e) => {
+		setTitle(e.target.value);
+	};
 
-        if (!initialPhoto && photo) {
-            updatedData.append("postPicture", photo);
-        } else if (initialPhoto && !photo) {
-            const urlToObject = async (url) => {
-                let response = await fetch(url);
-                let blob = await response.blob();
-                const file = new File([blob], initialPhoto, {
-                    type: blob.type,
-                });
-                return file;
-            };
-            const picture = await urlToObject(
-                data?.photo
-            );
+	const captionChangeHandler = (e) => {
+		setCaption(e.target.value);
+	};
 
-            updatedData.append("postPicture", picture);
-        }
+	const handleUpdatePost = async () => {
+		let updatedData = new FormData();
+		if (photo) {
+			updatedData.append("postPicture", photo);
+		}
+		updatedData.append(
+			"document",
+			JSON.stringify({ body, categories, title, caption })
+		);
+		mutateUpdatePost({
+			updatedData,
+			slug,
+			token: userState.userInfo.token,
+		});
+	};
 
-        updatedData.append("document", JSON.stringify({ body, categories }));
+	const handleDeleteImage = () => {
+		if (window.confirm("Do you want to delete your Post picture?")) {
+			setInitialPhoto(null);
+			setPhoto(null);
+		}
+	};
 
-        mutateUpdatePost({
-            updatedData,
-            slug,
-            token: userState.userInfo.token,
-        });
-    };
+	let isPostDataLoaded = !isLoading && !isError;
 
-    const handleDeleteImage = () => {
-        if (window.confirm("Do you want to delete your Post picture?")) {
-            setInitialPhoto(null);
-            setPhoto(null);
-        }
-    };
-
-    let isPostDataLoaded = !isLoading && !isError;
-
-    return (
+	return (
 		<div>
 			{isLoading ? (
 				<ArticleDetailSkeleton />
@@ -157,9 +163,30 @@ const EditPost = () => {
 								</Link>
 							))}
 						</div>
-						<h1 className="text-xl font-medium font-roboto mt-4 text-dark-hard md:text-[26px]">
-							{data?.title}
-						</h1>
+						<label htmlFor="title" className={labelClassName}>
+							Title
+						</label>
+						<input
+							type="text"
+							id="title"
+							className={inputClassName}
+							defaultValue={data?.title}
+							onChange={titleChangeHandler}
+							placeholder="Title goes here.."
+							autoComplete="off"
+						/>
+						<label htmlFor="caption" className={labelClassName}>
+							Caption
+						</label>
+						<input
+							type="text"
+							id="caption"
+							className={inputClassName}
+							defaultValue={data?.caption}
+							onChange={captionChangeHandler}
+							placeholder="Caption goes here.."
+							autoComplete="off"
+						/>
 						<div className="my-5">
 							{isPostDataLoaded && (
 								<MultiSelectTagDropdown
