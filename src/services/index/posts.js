@@ -27,9 +27,8 @@ export const getAllPostsOfUser = async (
 
 export const getAllPosts = async () => {
     try {
-        const { data } = await axios.get(`/api/posts`);
-        console.log(data);
-        return { data };
+        const { data, headers } = await axios.get(`/api/posts`);
+        return { data, headers };
     } catch (error) {
         if (error.response && error.response.data.message)
             throw new Error(error.response.data.message);

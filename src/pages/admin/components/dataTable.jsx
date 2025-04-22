@@ -55,8 +55,9 @@ const DataTable = ({
 							<table className="min-w-full leading-normal">
 								<thead>
 									<tr>
-										{tableHeaderTitleList.map((title) => (
+										{tableHeaderTitleList.map((title, idx) => (
 											<th
+												key={idx}
 												scope="col"
 												className="px-5 py-3 text-sm font-normal text-left text-gray-800 uppercase bg-white border-b border-gray-200"
 											>
@@ -89,7 +90,7 @@ const DataTable = ({
 									)}
 								</tbody>
 							</table>
-							{/* {!isLoading && (
+							{!isLoading && (
 								<Pagination
 									onPageChange={(page) =>
 										setCurrentPage(page)
@@ -99,7 +100,7 @@ const DataTable = ({
 										headers?.["x-totalpagecount"]
 									)}
 								/>
-							)} */}
+							)}
 						</div>
 					</div>
 				</div>
