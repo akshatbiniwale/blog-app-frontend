@@ -28,112 +28,113 @@ const Comment = ({
     const replyOneUserId = comment.user._id;
 
     return (
-        <div className="flex flex-nowrap items-start gap-x-3 bg-[#F2F4F5] p-3 rounded-lg">
-            <img
-                src={
-                    comment?.user?.avatar
-                        ? comment.user.avatar
-                        : images.noUser
-                }
-                alt="user-profile"
-                className="w-9 h-9 object-cover rounded-full"
-            />
-            <div className="flex-1 flex flex-col">
-                <h5 className="font-bold text-dark-hard text-xs lg:text-sm">
-                    {comment.user.name}
-                </h5>
-                <span className="text-xs text-dark-light">
-                    {new Date(comment.createdAt).toLocaleDateString("en-US", {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric",
-                        hour: "2-digit",
-                    })}
-                </span>
-                {!isEditing && (
-                    <p className="font-opensans mt=[10px] text-dark-light">
-                        {comment.desc}
-                    </p>
-                )}
-                {isEditing && (
-                    <CommentForm
-                        btnLabel="Update"
-                        formCancelHandler={() => setAffectedCommented(null)}
-                        formSubmitHandler={(value) =>
-                            updateComment(value, comment._id)
-                        }
-                        initialText={comment.desc}
-                    />
-                )}
-                <div className="flex items-center gap-x-3 text-dark-light font-roboto text-sm mt-3 mb-3">
-                    {isUserLoggedIn && (
-                        <button
-                            className="flex items-center space-x-2"
-                            onClick={() =>
-                                setAffectedCommented({
-                                    type: "REPLYING",
-                                    _id: comment._id,
-                                })
-                            }
-                        >
-                            <MdReply className="w-4 h-auto" />
-                            <span>Reply</span>
-                        </button>
-                    )}
-                    {commentBelongsToUser && (
-                        <>
-                            <button
-                                className="flex items-center space-x-2"
-                                onClick={() =>
-                                    setAffectedCommented({
-                                        type: "EDITING",
-                                        _id: comment._id,
-                                    })
-                                }
-                            >
-                                <MdEdit className="w-4 h-auto" />
-                                <span>Edit</span>
-                            </button>
-                            <button
-                                className="flex items-center space-x-2"
-                                onClick={() => deleteComment(comment._id)}
-                            >
-                                <MdDelete className="w-4 h-auto" />
-                                <span>Delete</span>
-                            </button>
-                        </>
-                    )}
-                </div>
-                {isReplying && (
-                    <CommentForm
-                        btnLabel="Reply"
-                        formCancelHandler={() => setAffectedCommented(null)}
-                        formSubmitHandler={(value) =>
-                            addComment(value, repliedCommendId, replyOneUserId)
-                        }
-                    />
-                )}
-                {replies.length > 0 && (
-                    <div>
-                        {replies.map((reply) => (
-                            <Comment
-                                key={reply._id}
-                                addComment={addComment}
-                                affectedCommented={affectedCommented}
-                                setAffectedCommented={setAffectedCommented}
-                                comment={reply}
-                                deleteComment={deleteComment}
-                                updateComment={updateComment}
-                                loggedInUserId={loggedInUserId}
-                                replies={[]}
-                                parentId={comment._id}
-                            />
-                        ))}
-                    </div>
-                )}
-            </div>
-        </div>
-    );
+		<div
+			className="flex flex-nowrap items-start gap-x-3 bg-[#F2F4F5] p-3 rounded-lg"
+			id={`comment-${comment?._id}`}
+		>
+			<img
+				src={
+					comment?.user?.avatar ? comment.user.avatar : images.noUser
+				}
+				alt="user-profile"
+				className="w-9 h-9 object-cover rounded-full"
+			/>
+			<div className="flex-1 flex flex-col">
+				<h5 className="font-bold text-dark-hard text-xs lg:text-sm">
+					{comment.user.name}
+				</h5>
+				<span className="text-xs text-dark-light">
+					{new Date(comment.createdAt).toLocaleDateString("en-US", {
+						day: "numeric",
+						month: "short",
+						year: "numeric",
+						hour: "2-digit",
+					})}
+				</span>
+				{!isEditing && (
+					<p className="font-opensans mt=[10px] text-dark-light">
+						{comment.desc}
+					</p>
+				)}
+				{isEditing && (
+					<CommentForm
+						btnLabel="Update"
+						formCancelHandler={() => setAffectedCommented(null)}
+						formSubmitHandler={(value) =>
+							updateComment(value, comment._id)
+						}
+						initialText={comment.desc}
+					/>
+				)}
+				<div className="flex items-center gap-x-3 text-dark-light font-roboto text-sm mt-3 mb-3">
+					{isUserLoggedIn && (
+						<button
+							className="flex items-center space-x-2"
+							onClick={() =>
+								setAffectedCommented({
+									type: "REPLYING",
+									_id: comment._id,
+								})
+							}
+						>
+							<MdReply className="w-4 h-auto" />
+							<span>Reply</span>
+						</button>
+					)}
+					{commentBelongsToUser && (
+						<>
+							<button
+								className="flex items-center space-x-2"
+								onClick={() =>
+									setAffectedCommented({
+										type: "EDITING",
+										_id: comment._id,
+									})
+								}
+							>
+								<MdEdit className="w-4 h-auto" />
+								<span>Edit</span>
+							</button>
+							<button
+								className="flex items-center space-x-2"
+								onClick={() => deleteComment(comment._id)}
+							>
+								<MdDelete className="w-4 h-auto" />
+								<span>Delete</span>
+							</button>
+						</>
+					)}
+				</div>
+				{isReplying && (
+					<CommentForm
+						btnLabel="Reply"
+						formCancelHandler={() => setAffectedCommented(null)}
+						formSubmitHandler={(value) =>
+							addComment(value, repliedCommendId, replyOneUserId)
+						}
+					/>
+				)}
+				{replies.length > 0 && (
+					<div>
+						{replies.map((reply) => (
+							<Comment
+								key={reply._id}
+								addComment={addComment}
+								affectedCommented={affectedCommented}
+								setAffectedCommented={setAffectedCommented}
+								comment={reply}
+								deleteComment={deleteComment}
+								updateComment={updateComment}
+								loggedInUserId={loggedInUserId}
+								replies={[]}
+								parentId={comment._id}
+							/>
+						))}
+					</div>
+				)}
+			</div>
+		</div>
+	);
 };
 
 export default Comment;
