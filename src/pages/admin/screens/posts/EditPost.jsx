@@ -43,7 +43,6 @@ const EditPost = () => {
 	const { mutate: mutateUpdatePost, isLoading: isLoadingUpdatePost } =
 		useMutation({
 			mutationFn: ({ updatedData, slug, token }) => {
-				console.log("updatedData", updatedData);
 				return updatePost({
 					updatedData,
 					slug,

@@ -4,6 +4,7 @@ const MultiSelectTagDropdown = ({
 	defaultValue = [],
 	loadOptions,
 	onChange,
+	value
 }) => {
 	return (
 		<AsyncSelect
@@ -13,6 +14,7 @@ const MultiSelectTagDropdown = ({
 			loadOptions={loadOptions}
 			className="relative z-20"
 			onChange={onChange}
+			value={value}
 		/>
 	);
 };

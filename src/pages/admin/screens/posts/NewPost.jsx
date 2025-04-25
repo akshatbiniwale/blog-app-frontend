@@ -20,6 +20,7 @@ const NewPost = () => {
 	const [body, setBody] = useState(null);
 	const [categories, setCategories] = useState([]);
 	const userState = useSelector((state) => state.user);
+	const [bodyKey, setBodyKey] = useState(0);
 
 	const { mutate } = useMutation({
 		mutationFn: ({ postData, token }) => createPost({ postData, token }),
@@ -47,12 +48,27 @@ const NewPost = () => {
 
 	const submitHandler = (event) => {
 		event.preventDefault();
+		
+		if (!title.trim()) {
+			toast.error("Title cannot be empty.");
+			return;
+		}
+
+		if (!caption.trim()) {
+			toast.error("Caption cannot be empty.");
+			return;
+		}
+
+		if (!body || body.trim() === "") {
+			toast.error("Post body cannot be empty.");
+			return;
+		}
 
 		const postData = {
 			title,
 			caption,
 			body,
-			categories, // ← include selected categories
+			categories: categories.map((item) => item.value),
 		};
 
 		let updatedData = new FormData();
@@ -66,6 +82,7 @@ const NewPost = () => {
 		setCaption("");
 		setBody("");
 		setCategories([]);
+		setBodyKey((prev) => prev + 1);
 	};
 
 	return (
@@ -107,9 +124,10 @@ const NewPost = () => {
 			<div className="mx-10 my-5">
 				<MultiSelectTagDropdown
 					loadOptions={promiseOptions}
-					onChange={(selected) =>
-						setCategories(selected.map((item) => item.value))
-					}
+					value={categories}
+					onChange={(selected) => {
+						setCategories(selected || []);
+					}}
 				/>
 			</div>
 
@@ -119,6 +137,7 @@ const NewPost = () => {
 			</label>
 			<div className="mx-10 my-7 flex flex-col justify-center border-2 border-primary rounded-xl">
 				<Editor
+					key={bodyKey}
 					editable={true}
 					content={(prevBody) => prevBody}
 					onDataChange={(data) => setBody(data)}

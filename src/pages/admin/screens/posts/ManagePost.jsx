@@ -33,8 +33,6 @@ const ManagePosts = () => {
 		},
 	});
 
-	console.log("managepost - ", postsData);
-
 	return (
 		<DataTable
 			pageTitle="Manage Posts"

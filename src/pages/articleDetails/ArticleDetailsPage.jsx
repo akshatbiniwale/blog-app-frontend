@@ -17,28 +17,28 @@ import { useSelector } from "react-redux";
 import Editor from "./../../components/editor/Editor";
 
 const ArticleDetails = () => {
-    const { slug } = useParams();
-    const userState = useSelector((state) => state.user);
-    const [breadCrumbsData, setBreadCrumbsData] = useState([]);
+	const { slug } = useParams();
+	const userState = useSelector((state) => state.user);
+	const [breadCrumbsData, setBreadCrumbsData] = useState([]);
 
-    const { data, isLoading, isError } = useQuery({
-        queryFn: () => getOnePost({ slug }),
-        onSuccess: (data) => {
-            setBreadCrumbsData([
-                { name: "Home", link: "/" },
-                { name: "Blog", link: "/blog" },
-                { name: "Article", link: `/blog/${slug}` },
-            ]);
-        },
-        queryKey: ["blog", slug],
-    });
+	const { data, isLoading, isError } = useQuery({
+		queryFn: () => getOnePost({ slug }),
+		onSuccess: (data) => {
+			setBreadCrumbsData([
+				{ name: "Home", link: "/" },
+				{ name: "Blog", link: "/blog" },
+				{ name: "Article", link: `/blog/${slug}` },
+			]);
+		},
+		queryKey: ["blog", slug],
+	});
 
-    const { data: postsData } = useQuery({
-        queryFn: () => getAllPosts(),
-        queryKey: ["post"],
-    });
+	const { data: postsData } = useQuery({
+		queryFn: () => getAllPosts(),
+		queryKey: ["post"],
+	});
 
-    return (
+	return (
 		<MainLayout>
 			{isLoading ? (
 				<ArticleDetailSkeleton />
@@ -57,13 +57,15 @@ const ArticleDetails = () => {
 							}
 							alt={data?.title}
 						/>
+
 						<div className="mt-4 flex gap-2">
-							{data?.categories.map((category) => (
+							{data?.categories.map((category, idx) => (
 								<Link
-									to={`/blog?category=${category.name}`}
+									key={idx}
+									to={`/blog?category=${category.title}`}
 									className="text-primary text-sm font-roboto inline-block md:text-base"
 								>
-									{category.name}
+									{category.title}
 								</Link>
 							))}
 						</div>
