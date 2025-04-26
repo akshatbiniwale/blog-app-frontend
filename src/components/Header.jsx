@@ -8,18 +8,18 @@ import { logout } from "../store/actions/users";
 import { Link, useNavigate } from "react-router-dom";
 
 const navItemsInfo = [
-    { name: "Home", type: "link", href: "/" },
-    { name: "Articles", type: "link", href: "/articles" },
-    {
-        name: "Pages",
-        type: "dropdown",
-        items: [
-            { title: "About us", href: "/about" },
-            { title: "Contact us", href: "/contact" },
-        ],
-    },
-    { name: "Pricing", type: "link", href: "/pricing" },
-    { name: "FaQ", type: "link", href: "/faq" },
+	{ name: "Home", type: "link", href: "/" },
+	{ name: "Blog", type: "link", href: "/blog" },
+	{
+		name: "Pages",
+		type: "dropdown",
+		items: [
+			{ title: "About us", href: "/about" },
+			{ title: "Contact us", href: "/contact" },
+		],
+	},
+	{ name: "Pricing", type: "link", href: "/pricing" },
+	{ name: "FaQ", type: "link", href: "/faq" },
 ];
 
 const NavItem = (props) => {

@@ -8,7 +8,7 @@ import ArticleDetailSkeleton from "./components/ArticleDetailSkeleton";
 import ErrorMessage from "../../components/ErrorMessage";
 import parseJsonToHtml from "../../utils/parseJsonToHtml";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BreadCrumbs } from "../../components/BreadCrumbs";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -37,6 +37,10 @@ const ArticleDetails = () => {
 		queryFn: () => getAllPosts(),
 		queryKey: ["post"],
 	});
+
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
 
 	return (
 		<MainLayout>
