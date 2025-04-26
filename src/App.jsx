@@ -12,6 +12,8 @@ import Comment from "./pages/admin/screens/comments/Comment";
 import NewPost from "./pages/admin/screens/posts/NewPost";
 import ManagePost from "./pages/admin/screens/posts/ManagePost";
 import EditPost from "./pages/admin/screens/posts/EditPost";
+import Categories from "./pages/admin/screens/categories/Categories";
+import EditCategories from "./pages/admin/screens/categories/EditCategories";
 
 const App = () => {
     return (
@@ -24,10 +26,12 @@ const App = () => {
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/admin" element={<AdminLayout />}>
                     <Route index element={<Admin />} />
-                    <Route path="comments" element={<Comment />} />
                     <Route path="posts/new" element={<NewPost />} />
                     <Route path="posts/manage" element={<ManagePost />} />
                     <Route path="posts/manage/edit/:slug" element={<EditPost />} />
+                    <Route path="comments" element={<Comment />} />
+                    <Route path="categories/manage" element={<Categories />} />
+                    <Route path="categories/manage/edit/:slug" element={<EditCategories />} />
                 </Route>
             </Routes>
             <Toaster />
