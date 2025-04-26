@@ -43,9 +43,10 @@ const ProfilePage = () => {
     const { mutate } = useMutation({
         mutationFn: ({ name, email, password }) => {
             return updateProfile({
-                token: userState.userInfo.token,
-                userData: { name, email, password },
-            });
+				token: userState.userInfo.token,
+				userData: { name, email, password },
+				userId: userState.userInfo._id,
+			});
         },
         onSuccess: (data) => {
             dispatch(userAction.setUserInfo(data));

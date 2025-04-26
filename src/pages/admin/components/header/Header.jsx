@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { images } from "../../../../constants";
 import { useEffect, useState } from "react";
 import { AiFillDashboard, AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
-import { FaComments } from "react-icons/fa";
+import { FaComments, FaUser } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { useWindowSize } from "@uidotdev/usehooks";
 
@@ -22,6 +22,13 @@ const MENU_ITEMS = [
 		link: "/admin/comments",
 		icon: <FaComments className="text-xl" />,
 		name: "comments",
+		type: "link",
+	},
+	{
+		title: "Users",
+		link: "/admin/users/manage",
+		icon: <FaUser className="text-xl" />,
+		name: "users",
 		type: "link",
 	},
 	{
