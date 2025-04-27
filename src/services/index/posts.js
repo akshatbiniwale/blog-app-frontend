@@ -25,13 +25,17 @@ export const getAllPostsOfUser = async (
     }
 };
 
-export const getAllPosts = async () => {
+
+export const getAllPosts = async (searchKeyword = "", page = 1, limit = 10, categories = []) => {
     try {
-        const { data, headers } = await axios.get(`/api/posts`);
-        return { data, headers };
+        const { data, headers } = await axios.get(
+        `/api/posts?searchKeyword=${searchKeyword}&page=${page}&limit=${limit}&categories=${categories.join(",")}`
+    );
+    return { data, headers };
     } catch (error) {
-        if (error.response && error.response.data.message)
+        if (error.response && error.response.data.message){
             throw new Error(error.response.data.message);
+        }
         throw new Error(error.message);
     }
 };

@@ -9,11 +9,32 @@ import Pagination from "../../components/Pagination";
 import { useSearchParams } from "react-router-dom";
 import ArticleCard from "../home/container/ArticleCard";
 import Search from "../../components/Search";
+import { getAllCategories } from './../../services/index/postCategories';
+import { filterCategories } from "../../utils/multiSelectTagUtils";
+import AsyncMultiSelectTagDropdown from "../../components/SelectAsyncPaginate";
 
 let isFirstRun = true;
 
+const promiseOptions = async (search, loadedOptions, { page }) => {
+	const { data: categoriesData, headers } = await getAllCategories(
+		search,
+		page
+	);
+
+	return {
+		options: filterCategories(search, categoriesData),
+		hasMore:
+			parseInt(headers["x-totalpagecount"]) !==
+			parseInt(headers["x-currentpage"]),
+		additional: {
+			page: page + 1,
+		},
+	};
+};
+
 const BlogPage = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
+	const [categories, setCategories] = useState([]);
 
 	const searchParamsValue = Object.fromEntries([...searchParams]);
 
@@ -21,8 +42,8 @@ const BlogPage = () => {
 	const searchKeyword = searchParamsValue?.search || "";
 
 	const { data, isLoading, isError, isFetching, refetch } = useQuery({
-		queryFn: () => getAllPosts(searchKeyword, currentPage, 12),
-		queryKey: ["posts"],
+		queryFn: () => getAllPosts(searchKeyword, currentPage, 12, categories),
+		queryKey: ["posts", "categories"],
 		onError: (error) => {
 			toast.error(error.message);
 			console.log(error);
@@ -50,12 +71,23 @@ const BlogPage = () => {
 
 	return (
 		<MainLayout>
-			<section className="flex flex-col container mx-auto px-5 py-10">
-				<Search
-					className="w-full max-w-xl mb-10"
-					onSearchKeyword={handleSearch}
-				/>
-				<div className=" flex flex-wrap md:gap-x-5 gap-y-5 pb-10">
+			<section className="container flex flex-col px-5 py-10 mx-auto">
+				<div className="flex flex-col mb-10 space-y-3 lg:space-y-0 lg:flex-row lg:items-center lg:gap-x-4">
+					<Search
+						className="w-full max-w-xl"
+						onSearchKeyword={handleSearch}
+					/>
+					<AsyncMultiSelectTagDropdown
+						placeholder={"Search by categories..."}
+						loadOptions={promiseOptions}
+						onChange={(selectedValues) => {
+							setCategories(
+								selectedValues.map((item) => item.value)
+							);
+						}}
+					/>
+				</div>
+				<div className="flex flex-wrap pb-10 md:gap-x-5 gap-y-5">
 					{isLoading || isFetching ? (
 						[...Array(3)].map((item, index) => (
 							<ArticleCardSkeleton
