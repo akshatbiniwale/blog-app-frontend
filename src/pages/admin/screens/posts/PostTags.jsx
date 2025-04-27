@@ -1,34 +1,29 @@
 import React, { useState } from "react";
 import TagsInput from "react-tagsinput";
+import "react-tagsinput/react-tagsinput.css";
 
 const PostTags = ({ onTagsHandler }) => {
-    const [tags, setTags] = useState([]);
+	const [tags, setTags] = useState([]);
 
-    const handleChange = (newTags) => {
-        setTags(newTags);
-        onTagsHandler(tags);
-    };
+	const handleChange = (newTags) => {
+		setTags(newTags);
+		onTagsHandler(newTags);
+	};
 
-    return (
-        <div>
-            <TagsInput
-                value={tags}
-                onChange={handleChange}
-                trimValue={true}
-                confirmKeys={[13, 44, 32]}
-                focusClass="my-focus-class"
-            >
-                Separate keywords with a comma, space bar, or enter key
-            </TagsInput>
-            <br />
-            <input
-                type="text"
-                name="output"
-                className="form-control"
-                value={tags.join(", ")}
-            />
-        </div>
-    );
+	return (
+		<div className="flex flex-col gap-4">
+			<TagsInput
+				value={tags}
+				onChange={handleChange}
+				inputProps={{
+					placeholder: "Add tags...",
+					className:
+						"placeholder:text-gray-400 w-full text-dark-hard rounded-lg px-3 py-2 md-5 font-semibold block outline-none border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+				}}
+				className="w-full rounded-lg custom-tags-input"
+			/>
+		</div>
+	);
 };
 
 export default PostTags;

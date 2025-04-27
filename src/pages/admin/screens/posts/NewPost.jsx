@@ -8,6 +8,7 @@ import Editor from "../../../../components/editor/Editor";
 import MultiSelectTagDropdown from "../../components/select-dropdown/MultiSelectTagDropdown";
 import { getAllCategories } from "../../../../services/index/postCategories";
 import { filterCategories } from "../../../../utils/multiSelectTagUtils";
+import PostTags from "./PostTags";
 
 const NewPost = () => {
 	const labelClassName = "text-black font-semibold block text-xl";
@@ -19,6 +20,7 @@ const NewPost = () => {
 	const [caption, setCaption] = useState("");
 	const [body, setBody] = useState(null);
 	const [categories, setCategories] = useState([]);
+	const [tags, setTags] = useState([]);
 	const userState = useSelector((state) => state.user);
 	const [bodyKey, setBodyKey] = useState(0);
 
@@ -42,13 +44,17 @@ const NewPost = () => {
 	const captionChangeHandler = (event) => setCaption(event.target.value);
 
 	const promiseOptions = async (inputValue) => {
-		const categoriesData = await getAllCategories();
-		return filterCategories(inputValue, categoriesData);
+		const { data } = await getAllCategories();
+		return filterCategories(inputValue, data);
+	};
+
+	const handleTagsChange = (newTags) => {
+		setTags(newTags);
 	};
 
 	const submitHandler = (event) => {
 		event.preventDefault();
-		
+
 		if (!title.trim()) {
 			toast.error("Title cannot be empty.");
 			return;
@@ -59,7 +65,7 @@ const NewPost = () => {
 			return;
 		}
 
-		if (!body || body.trim() === "") {
+		if (!body) {
 			toast.error("Post body cannot be empty.");
 			return;
 		}
@@ -69,6 +75,7 @@ const NewPost = () => {
 			caption,
 			body,
 			categories: categories.map((item) => item.value),
+			tags,
 		};
 
 		let updatedData = new FormData();
@@ -82,6 +89,7 @@ const NewPost = () => {
 		setCaption("");
 		setBody("");
 		setCategories([]);
+		setTags([]);
 		setBodyKey((prev) => prev + 1);
 	};
 
@@ -129,6 +137,14 @@ const NewPost = () => {
 						setCategories(selected || []);
 					}}
 				/>
+			</div>
+
+			{/* Tags Input */}
+			<label className="text-black font-semibold ml-10 text-xl">
+				Tags
+			</label>
+			<div className="mx-10 my-5">
+				<PostTags onTagsHandler={handleTagsChange} />
 			</div>
 
 			{/* Editor */}
@@ -187,6 +203,7 @@ const NewPost = () => {
 						setBody("");
 						setPhoto(null);
 						setCategories([]);
+						setTags([]); // Reset tags
 					}}
 				>
 					Discard

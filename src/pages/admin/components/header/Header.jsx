@@ -4,19 +4,12 @@ import NavItemCollapse from "./NavItemCollapse";
 import { Link } from "react-router-dom";
 import { images } from "../../../../constants";
 import { useEffect, useState } from "react";
-import { AiFillDashboard, AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { FaComments, FaUser } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { useWindowSize } from "@uidotdev/usehooks";
 
 const MENU_ITEMS = [
-	{
-		title: "Dashboard",
-		link: "/admin",
-		icon: <AiFillDashboard className="text-xl" />,
-		name: "dashboard",
-		type: "link",
-	},
 	{
 		title: "Comments",
 		link: "/admin/comments",
@@ -46,7 +39,7 @@ const MENU_ITEMS = [
 
 const Header = () => {
 	const [isMenuActive, setIsMenuActive] = useState(false);
-	const [activeNavName, setActiveNavName] = useState("dashboard");
+	const [activeNavName, setActiveNavName] = useState("posts");
 	const windowSize = useWindowSize();
 
 	useEffect(() => {

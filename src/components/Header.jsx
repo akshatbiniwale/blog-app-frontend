@@ -10,16 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 const navItemsInfo = [
 	{ name: "Home", type: "link", href: "/" },
 	{ name: "Blog", type: "link", href: "/blog" },
-	{
-		name: "Pages",
-		type: "dropdown",
-		items: [
-			{ title: "About us", href: "/about" },
-			{ title: "Contact us", href: "/contact" },
-		],
-	},
-	{ name: "Pricing", type: "link", href: "/pricing" },
-	{ name: "FaQ", type: "link", href: "/faq" },
+	{ name: "About Us", type: "link", href: "/about" },
 ];
 
 const NavItem = (props) => {
@@ -146,7 +137,7 @@ const Header = () => {
                                             {userState?.userInfo?.admin && (
                                                 <button
                                                     onClick={() => {
-                                                        navigate("/admin");
+                                                        navigate("/admin/posts/manage");
                                                     }}
                                                     className="hover:bg-dark-hard hover:text-white px-4 py-2 text-white lg:text-dark-soft"
                                                 >

@@ -8,12 +8,12 @@ const AsyncMultiSelectTagDropdown = ({
 }) => {
 	return (
 		<AsyncPaginate
+			className="w-full max-w-sm border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 relative z-20"
 			defaultValue={defaultValue}
 			placeholder={placeholder}
 			defaultOptions
 			isMulti
 			loadOptions={loadOptions}
-			className="relative z-20"
 			onChange={onChange}
 			additional={{
 				page: 1,
