@@ -34,6 +34,8 @@
         "react-redux": "^8.1.1",
         "react-router-dom": "^6.14.1",
         "react-scripts": "5.0.1",
+        "react-select": "^5.10.1",
+        "react-select-async-paginate": "^0.7.10",
         "react-tagsinput": "^3.20.3",
         "tiptap": "^1.32.2",
         "web-vitals": "^2.1.4"

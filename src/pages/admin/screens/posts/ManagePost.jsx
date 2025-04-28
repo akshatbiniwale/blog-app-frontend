@@ -46,7 +46,7 @@ const ManagePosts = () => {
 				"Category",
 				"Created At",
 				"Tags",
-				"",
+				"Actions",
 			]}
 			isLoading={isLoading}
 			isFetching={isFetching}
@@ -58,7 +58,10 @@ const ManagePosts = () => {
 		>
 			{postsData?.data.map((post, idx) => (
 				<tr key={idx}>
-					<td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+					<td
+						className="px-5 py-5 text-sm bg-white border-b border-gray-200"
+						style={{width: "35%"}}
+					>
 						<div className="flex items-center">
 							<div className="flex-shrink-0">
 								<a href="/" className="relative block">
@@ -80,7 +83,10 @@ const ManagePosts = () => {
 							</div>
 						</div>
 					</td>
-					<td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+					<td
+						className="px-5 py-5 text-sm bg-white border-b border-gray-200"
+						style={{width: "15%"}}
+					>
 						<p className="text-gray-900 whitespace-no-wrap">
 							{post?.categories?.length > 0
 								? post?.categories
@@ -98,7 +104,10 @@ const ManagePosts = () => {
 								: "Uncategorized"}
 						</p>
 					</td>
-					<td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+					<td
+						className="px-5 py-5 text-sm bg-white border-b border-gray-200"
+						style={{width: "20%"}}
+					>
 						<p className="text-gray-900 whitespace-no-wrap">
 							{new Date(post.createdAt).toLocaleDateString(
 								"en-US",
@@ -110,7 +119,10 @@ const ManagePosts = () => {
 							)}
 						</p>
 					</td>
-					<td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+					<td
+						className="px-5 py-5 text-sm bg-white border-b border-gray-200"
+						style={{width: "20%"}}
+					>
 						<div className="flex gap-x-2">
 							{post?.tags?.length > 0
 								? post?.tags?.map((tag, index) => (
@@ -123,26 +135,32 @@ const ManagePosts = () => {
 								: "No tags"}
 						</div>
 					</td>
-					<td className="px-5 py-5 text-sm bg-white border-b border-gray-200 space-x-5">
-						<button
-							disabled={isLoadingDeleteData}
-							type="button"
-							className="text-red-600 hover:text-red-900 disabled:opacity-70 disabled:cursor-not-allowed"
-							onClick={() => {
-								deleteDataHandler({
-									slug: post?.slug,
-									token: userState.userInfo.token,
-								});
-							}}
-						>
-							Delete
-						</button>
-						<Link
-							to={`/admin/posts/manage/edit/${post?.slug}`}
-							className="text-green-600 hover:text-green-900"
-						>
-							Edit
-						</Link>
+					<td
+						className="px-5 py-5 text-sm bg-white border-b border-gray-200"
+						style={{width: "10%"}}
+					>
+						<div className="flex flex-col items-start space-y-2">
+							{" "}
+							<button
+								disabled={isLoadingDeleteData}
+								type="button"
+								className="text-red-600 hover:text-red-900 disabled:opacity-70 disabled:cursor-not-allowed"
+								onClick={() => {
+									deleteDataHandler({
+										slug: post?.slug,
+										token: userState.userInfo.token,
+									});
+								}}
+							>
+								Delete
+							</button>
+							<Link
+								to={`/admin/posts/manage/edit/${post?.slug}`}
+								className="text-green-600 hover:text-green-900"
+							>
+								Edit
+							</Link>
+						</div>
 					</td>
 				</tr>
 			))}

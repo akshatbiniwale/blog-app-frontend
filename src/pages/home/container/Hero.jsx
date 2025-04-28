@@ -7,17 +7,36 @@ const Hero = () => {
 	const navigate = useNavigate();
 	const [searchKeyword, setSearchKeyword] = useState("");
 
-	const categories = ["Backend", "Lifestyle", "Movies"];
+	const categories = [
+		{
+			id: "680dfdfcb001243d0553dd30",
+			title: "Backend",
+		},
+		{
+			id: "680dfe0cb001243d0553dd36",
+			title: "Lifestyle",
+		},
+		{
+			id: "680dfe16b001243d0553dd3c",
+			title: "Movies",
+		},
+		{
+			id: "680e0297b001243d0553de06",
+			title: "Automobile",
+		},
+	];
 
-	const handleCategoryClick = (categoryName) => {
-		navigate(`/blog?category=${categoryName}`);
+	const handleCategoryClick = (categoryId) => {
+		navigate(`/blog?page=1&search=&category=${categoryId}`);
 	};
 
 	const handleSearch = (e) => {
 		e.preventDefault();
-		
+
 		if (searchKeyword.trim()) {
-			navigate(`/blog?search=${searchKeyword}`);
+			navigate(
+				`/blog?search=${searchKeyword}&search=&category=`
+			);
 		}
 	};
 
@@ -59,11 +78,13 @@ const Hero = () => {
 					<ul className="flex flex-wrap gap-x-2.5 gap-y-2.5 mt-3 lg:text-sm xl:text-base">
 						{categories.map((category) => (
 							<li
-								key={category}
+								key={category.id}
 								className="cursor-pointer rounded-lg bg-primary bg-opacity-10 px-3 py-1.5 text-primary font-semibold hover:bg-opacity-20 transition-all"
-								onClick={() => handleCategoryClick(category)}
+								onClick={() =>
+									handleCategoryClick(category.id)
+								} // Pass category title
 							>
-								{category}
+								{category.title}
 							</li>
 						))}
 					</ul>

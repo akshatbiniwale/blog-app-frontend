@@ -1,7 +1,5 @@
 import React, { Fragment, useState } from "react";
 import { HiOutlineCamera } from "react-icons/hi";
-
-import { stables } from "../constants";
 import CropEasy from "./crop/CropEasy";
 import { createPortal } from "react-dom";
 import { toast } from "react-hot-toast";

@@ -91,10 +91,6 @@ const Header = () => {
 								className="w-16"
 							/>
 						</Link>
-						<h4 className="mt-10 font-bold text-[#C7C7C7]">
-							MAIN MENU
-						</h4>
-						{/* menu items */}
 						<div className="mt-6 flex flex-col gap-y-[0.563rem]">
 							{MENU_ITEMS.map((item, index) =>
 								item.type === "link" ? (

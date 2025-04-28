@@ -6,7 +6,6 @@ import { Link, useParams } from "react-router-dom";
 import MultiSelectTagDropdown from "../../components/select-dropdown/MultiSelectTagDropdown";
 import ArticleDetailSkeleton from "../../../articleDetails/components/ArticleDetailSkeleton";
 import ErrorMessage from "../../../../components/ErrorMessage";
-import parseJsonToHtml from "../../../../utils/parseJsonToHtml";
 import { HiOutlineCamera } from "react-icons/hi";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";

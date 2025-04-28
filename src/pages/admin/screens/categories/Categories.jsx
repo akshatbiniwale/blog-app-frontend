@@ -88,7 +88,7 @@ const Categories = () => {
 					searchKeywordOnSubmitHandler={submitSearchKeywordHandler}
 					searchKeywordOnChangeHandler={searchKeywordHandler}
 					searchKeyword={searchKeyword}
-					tableHeaderTitleList={["Title", "Created At", ""]}
+					tableHeaderTitleList={["Title", "Created At", "Actions"]}
 					isLoading={isLoading}
 					isFetching={isFetching}
 					data={categoriesData?.data}

@@ -82,7 +82,7 @@ const Users = () => {
 				"Created At",
 				"is Verified",
 				"is Admin",
-				"",
+				"Actions",
 			]}
 			isLoading={isLoading}
 			isFetching={isFetching}

@@ -8,7 +8,7 @@ import {
 	updateComment,
 } from "../../../../services/index/comments";
 import DataTable from "../../components/dataTable";
-import { images, stables } from "../../../../constants";
+import { images } from "../../../../constants";
 import { Link } from "react-router-dom";
 
 const Comments = () => {
@@ -44,7 +44,6 @@ const Comments = () => {
 
 	const {
 		mutate: mutateUpdateCommentCheck,
-		isLoading: isLoadingUpdateCommentCheck,
 	} = useMutation({
 		mutationFn: ({ token, check, commentId }) => {
 			return updateComment({ token, check, commentId });
@@ -52,7 +51,7 @@ const Comments = () => {
 		onSuccess: (data) => {
 			queryClient.invalidateQueries(["comments"]);
 			toast.success(
-				data?.check ? "CComment is approved" : "Comment is not approved"
+				data?.check ? "Comment is approved" : "Comment is not approved"
 			);
 		},
 		onError: (error) => {
@@ -72,9 +71,9 @@ const Comments = () => {
 			tableHeaderTitleList={[
 				"Author",
 				"Comment",
-				"In Respond to",
+				"Post",
 				"Created At",
-				"",
+				"Actions",
 			]}
 			isFetching={isFetching}
 			isLoading={isLoading}
@@ -83,9 +82,10 @@ const Comments = () => {
 			currentPage={currentPage}
 			headers={commentsData?.headers}
 		>
-			{commentsData?.data.map((comment) => (
-				<tr>
-					<td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+			{commentsData?.data.map((comment, idx) => (
+				<tr key={idx}>
+					<td className="px-5 py-5 text-sm bg-white border-b border-gray-200"
+					>
 						<div className="flex items-center">
 							<div className="flex-shrink-0">
 								<a href="/" className="relative block">
@@ -147,38 +147,40 @@ const Comments = () => {
 							)}
 						</p>
 					</td>
-					<td className="px-5 py-5 text-sm bg-white border-b border-gray-200 space-x-5">
-						<button
-							disabled={isLoadingDeleteData}
-							type="button"
-							className={`${
-								comment?.check
-									? "text-yellow-600 hover:text-yellow-900"
-									: "text-green-600 hover:text-green-900"
-							} disabled:opacity-70 disabled:cursor-not-allowed`}
-							onClick={() => {
-								mutateUpdateCommentCheck({
-									token: userState.userInfo.token,
-									check: comment?.check ? false : true,
-									commentId: comment._id,
-								});
-							}}
-						>
-							{comment?.check ? "Unapprove" : "Approve"}
-						</button>
-						<button
-							disabled={isLoadingDeleteData}
-							type="button"
-							className="text-red-600 hover:text-red-900 disabled:opacity-70 disabled:cursor-not-allowed"
-							onClick={() => {
-								deleteDataHandler({
-									slug: comment?._id,
-									token: userState.userInfo.token,
-								});
-							}}
-						>
-							Delete
-						</button>
+					<td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
+						<div className="flex flex-col items-start space-y-2">
+							<button
+								disabled={isLoadingDeleteData}
+								type="button"
+								className={`${
+									comment?.check
+										? "text-yellow-600 hover:text-yellow-900"
+										: "text-green-600 hover:text-green-900"
+								} disabled:opacity-70 disabled:cursor-not-allowed`}
+								onClick={() => {
+									mutateUpdateCommentCheck({
+										token: userState.userInfo.token,
+										check: comment?.check ? false : true,
+										commentId: comment._id,
+									});
+								}}
+							>
+								{comment?.check ? "Unapprove" : "Approve"}
+							</button>
+							<button
+								disabled={isLoadingDeleteData}
+								type="button"
+								className="text-red-600 hover:text-red-900 disabled:opacity-70 disabled:cursor-not-allowed"
+								onClick={() => {
+									deleteDataHandler({
+										slug: comment?._id,
+										token: userState.userInfo.token,
+									});
+								}}
+							>
+								Delete
+							</button>
+						</div>
 					</td>
 				</tr>
 			))}

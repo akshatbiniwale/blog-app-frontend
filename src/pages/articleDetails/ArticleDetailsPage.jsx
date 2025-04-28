@@ -3,10 +3,8 @@ import images from "../../constants/images";
 import SuggestedPosts from "./container/SuggestedPosts";
 import CommentsContainer from "../../components/comments/CommentsContainer";
 import SocialShareButtons from "../../components/comments/SocialShareButtons";
-import stables from "./../../constants/stables";
 import ArticleDetailSkeleton from "./components/ArticleDetailSkeleton";
 import ErrorMessage from "../../components/ErrorMessage";
-import parseJsonToHtml from "../../utils/parseJsonToHtml";
 
 import { useEffect, useState } from "react";
 import { BreadCrumbs } from "../../components/BreadCrumbs";

@@ -1,5 +1,5 @@
 import React from "react";
-import { images, stables } from "../../constants";
+import { images } from "../../constants";
 import { MdReply, MdEdit, MdDelete } from "react-icons/md";
 import CommentForm from "./CommentForm";
 

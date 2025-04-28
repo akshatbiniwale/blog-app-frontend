@@ -9,7 +9,7 @@ import Pagination from "../../components/Pagination";
 import { useSearchParams } from "react-router-dom";
 import ArticleCard from "../home/container/ArticleCard";
 import Search from "../../components/Search";
-import { getAllCategories } from './../../services/index/postCategories';
+import { getAllCategories } from "./../../services/index/postCategories";
 import { filterCategories } from "../../utils/multiSelectTagUtils";
 import AsyncMultiSelectTagDropdown from "../../components/SelectAsyncPaginate";
 
@@ -42,15 +42,17 @@ const BlogPage = () => {
 	const searchKeyword = searchParamsValue?.search || "";
 
 	const { data, isLoading, isError, isFetching, refetch } = useQuery({
-		queryFn: () => getAllPosts(searchKeyword, currentPage, 12, categories),
-		queryKey: ["posts", "categories"],
+		queryFn: () => {
+			const validCategories =
+				categories.length > 0 ? categories : undefined;
+			return getAllPosts(searchKeyword, currentPage, 12, validCategories);
+		},
+		queryKey: ["posts", "categories", searchKeyword, categories],
 		onError: (error) => {
 			toast.error(error.message);
 			console.log(error);
 		},
 	});
-
-	console.log(data);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -59,14 +61,34 @@ const BlogPage = () => {
 			return;
 		}
 		refetch();
-	}, [currentPage, searchKeyword, refetch]);
+	}, [currentPage, searchKeyword, categories, refetch]);
 
 	const handlePageChange = (page) => {
-		setSearchParams({ page, search: searchKeyword });
+		setSearchParams({
+			page,
+			search: searchKeyword,
+			categories: categories.join(","),
+		});
 	};
 
 	const handleSearch = ({ searchKeyword }) => {
-		setSearchParams({ page: 1, search: searchKeyword });
+		setSearchParams({
+			page: 1,
+			search: searchKeyword,
+			categories: categories.join(","),
+		});
+	};
+
+	const handleCategoryChange = (selectedValues) => {
+		const selectedCategories = selectedValues.map((item) => item.value);
+		setCategories(selectedCategories);
+
+		// Update search params to reflect category selection
+		setSearchParams({
+			page: 1,
+			search: searchKeyword,
+			categories: selectedCategories.join(","),
+		});
 	};
 
 	return (
@@ -80,11 +102,7 @@ const BlogPage = () => {
 					<AsyncMultiSelectTagDropdown
 						placeholder={"Search by categories..."}
 						loadOptions={promiseOptions}
-						onChange={(selectedValues) => {
-							setCategories(
-								selectedValues.map((item) => item.value)
-							);
-						}}
+						onChange={handleCategoryChange} // Handle category selection
 					/>
 				</div>
 				<div className="flex flex-wrap pb-10 md:gap-x-5 gap-y-5">
