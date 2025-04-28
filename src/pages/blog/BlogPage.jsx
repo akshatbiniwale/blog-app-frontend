@@ -36,18 +36,26 @@ const BlogPage = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [categories, setCategories] = useState([]);
 
-	const searchParamsValue = Object.fromEntries([...searchParams]);
+	// Extract query parameters from the URL
+	const currentPage = parseInt(searchParams.get("page")) || 1;
+	const searchKeyword = searchParams.get("search") || "";
+	const categoryParams = searchParams.get("categories") || "";
 
-	const currentPage = parseInt(searchParamsValue?.page) || 1;
-	const searchKeyword = searchParamsValue?.search || "";
+	// Convert categoryParams (comma-separated string) to an array
+	useEffect(() => {
+		if (categoryParams) {
+			setCategories(categoryParams.split(","));
+		}
+	}, [categoryParams]);
 
+	// Fetch posts based on query parameters
 	const { data, isLoading, isError, isFetching, refetch } = useQuery({
 		queryFn: () => {
 			const validCategories =
 				categories.length > 0 ? categories : undefined;
 			return getAllPosts(searchKeyword, currentPage, 12, validCategories);
 		},
-		queryKey: ["posts", "categories", searchKeyword, categories],
+		queryKey: ["posts", categories, searchKeyword, currentPage],
 		onError: (error) => {
 			toast.error(error.message);
 			console.log(error);

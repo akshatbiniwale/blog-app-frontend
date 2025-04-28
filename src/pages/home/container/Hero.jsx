@@ -27,7 +27,7 @@ const Hero = () => {
 	];
 
 	const handleCategoryClick = (categoryId) => {
-		navigate(`/blog?page=1&search=&category=${categoryId}`);
+		navigate(`/blog?page=1&search=&categories=${categoryId}`);
 	};
 
 	const handleSearch = (e) => {
@@ -35,7 +35,7 @@ const Hero = () => {
 
 		if (searchKeyword.trim()) {
 			navigate(
-				`/blog?search=${searchKeyword}&search=&category=`
+				`/blog?search=${searchKeyword}&search=&categories=`
 			);
 		}
 	};
