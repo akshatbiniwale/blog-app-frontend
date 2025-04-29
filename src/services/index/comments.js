@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const API_BASE_URL = process.env.API_BASE_URL;
+
 export const createComment = async ({
     token,
     desc,
@@ -15,7 +17,7 @@ export const createComment = async ({
         };
 
         const { data } = await axios.post(
-            "/api/comments",
+            `${API_BASE_URL}/api/comments`,
             {
                 desc,
                 slug,
@@ -43,7 +45,7 @@ export const updateComment = async ({ desc, commentId, token, check }) => {
         };
 
         const { data } = await axios.put(
-            `/api/comments/${commentId}`,
+            `${API_BASE_URL}/api/comments/${commentId}`,
             {
                 desc,
                 check,
@@ -69,7 +71,7 @@ export const deleteComment = async ({ commentId, token }) => {
         };
 
         const { data } = await axios.delete(
-            `/api/comments/${commentId}`,
+            `${API_BASE_URL}/api/comments/${commentId}`,
             config
         );
 
@@ -96,7 +98,7 @@ export const getAllComments = async (
 		};
 
 		const { data, headers } = await axios.get(
-			`/api/comments?searchKeyword=${searchKeyword}&page=${page}&limit=${limit}`,
+			`${API_BASE_URL}/api/comments?searchKeyword=${searchKeyword}&page=${page}&limit=${limit}`,
 			config
 		);
 		return { data, headers };

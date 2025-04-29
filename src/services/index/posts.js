@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const API_BASE_URL = process.env.API_BASE_URL;
+
 export const getAllPostsOfUser = async (
     token,
     searchKeyword = "",
@@ -14,7 +16,7 @@ export const getAllPostsOfUser = async (
         };
 
         const { data, headers } = await axios.get(
-            `/api/posts/manage?searchKeyword=${searchKeyword}&page=${page}&limit=${limit}`,
+            `${API_BASE_URL}/api/posts/manage?searchKeyword=${searchKeyword}&page=${page}&limit=${limit}`,
             config
         );
         return { data, headers };
@@ -29,7 +31,7 @@ export const getAllPostsOfUser = async (
 export const getAllPosts = async (searchKeyword = "", page = 1, limit = 10, categories = []) => {
     try {
         const { data, headers } = await axios.get(
-        `/api/posts?searchKeyword=${searchKeyword}&page=${page}&limit=${limit}&categories=${categories.join(",")}`
+        `${API_BASE_URL}/api/posts?searchKeyword=${searchKeyword}&page=${page}&limit=${limit}&categories=${categories.join(",")}`
     );
     return { data, headers };
     } catch (error) {
@@ -42,7 +44,7 @@ export const getAllPosts = async (searchKeyword = "", page = 1, limit = 10, cate
 
 export const getOnePost = async ({ slug }) => {
     try {
-        const { data } = await axios.get(`/api/posts/${slug}`);
+        const { data } = await axios.get(`${API_BASE_URL}/api/posts/${slug}`);
         return data;
     } catch (error) {
         if (error.response && error.response.data.message) {
@@ -60,7 +62,10 @@ export const deletePost = async ({ slug, token }) => {
             },
         };
 
-        const { data } = await axios.delete(`/api/posts/${slug}`, config);
+        const { data } = await axios.delete(
+			`${API_BASE_URL}/api/posts/${slug}`,
+			config
+		);
         return data;
     } catch (error) {
         if (error.response && error.response.data.message)
@@ -78,7 +83,7 @@ export const updatePost = async ({ updatedData, slug, token }) => {
         };
 
         const { data } = await axios.put(
-            `/api/posts/${slug}`,
+            `${API_BASE_URL}/api/posts/${slug}`,
             updatedData,
             config
         );
@@ -99,7 +104,7 @@ export const createPost = async ({ postData, token }) => {
             },
         };
 
-        const { data } = await axios.post(`/api/posts/`, postData, config);
+        const { data } = await axios.post(`${API_BASE_URL}/api/posts/`, postData, config);
         return data;
     } catch (error) {
         if (error.response && error.response.data.message)

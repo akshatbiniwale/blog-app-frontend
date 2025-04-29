@@ -3,9 +3,11 @@ import axios from "axios";
 // making api requests to the backend
 // Axios is a promise-based HTTP client for JavaScript. It makes sending asynchronous HTTP requests to REST endpoints easier and helps you perform CRUD operations.
 
+const API_BASE_URL = process.env.API_BASE_URL;
+
 export const signUp = async ({ name, email, password }) => {
     try {
-        const { data } = await axios.post("/api/users/register", {
+        const { data } = await axios.post(`${API_BASE_URL}/api/users/register`, {
             name,
             email,
             password,
@@ -21,7 +23,7 @@ export const signUp = async ({ name, email, password }) => {
 
 export const login = async ({ email, password }) => {
     try {
-        const { data } = await axios.post("/api/users/login", {
+        const { data } = await axios.post(`${API_BASE_URL}/api/users/login`, {
             email,
             password,
         });
@@ -41,7 +43,7 @@ export const getUserProfile = async ({ token }) => {
                 Authorization: `Bearer ${token}`,
             },
         };
-        const { data } = await axios.get("/api/users/profile", config);
+        const { data } = await axios.get(`${API_BASE_URL}/api/users/profile`, config);
         return data;
     } catch (error) {
         if (error.response && error.response.data.message) {
@@ -59,7 +61,7 @@ export const updateProfile = async ({ token, userData, userId }) => {
             },
         };
         const { data } = await axios.put(
-            `/api/users/updateProfile/${userId}`,
+            `${API_BASE_URL}/api/users/updateProfile/${userId}`,
             userData,
             config
         );
@@ -81,7 +83,7 @@ export const updateProfilePicture = async ({ token, formData }) => {
             },
         };
         const { data } = await axios.put(
-            "/api/users/updateProfilePicture",
+            `${API_BASE_URL}/api/users/updateProfilePicture`,
             formData,
             config
         );
@@ -108,7 +110,7 @@ export const getAllUsers = async (
 		};
 
 		const { data, headers } = await axios.get(
-			`/api/users?searchKeyword=${searchKeyword}&page=${page}&limit=${limit}`,
+			`${API_BASE_URL}/api/users?searchKeyword=${searchKeyword}&page=${page}&limit=${limit}`,
 			config
 		);
 		return { data, headers };
@@ -127,7 +129,10 @@ export const deleteUser = async ({ slug, token }) => {
 			},
 		};
 
-		const { data } = await axios.delete(`/api/users/${slug}`, config);
+		const { data } = await axios.delete(
+			`${API_BASE_URL}/api/users/${slug}`,
+			config
+		);
 		return data;
 	} catch (error) {
 		if (error.response && error.response.data.message)
