@@ -11,6 +11,20 @@ const navItemsInfo = [
 	{ name: "Home", type: "link", href: "/" },
 	{ name: "Blog", type: "link", href: "/blog" },
 	{ name: "About Us", type: "link", href: "/about" },
+	{
+		name: "GitHub",
+		type: "dropdown",
+		items: [
+			{
+				title: "Frontend",
+				href: "https://github.com/akshatbiniwale/blog-app-frontend",
+			},
+			{
+				title: "Backend",
+				href: "https://github.com/akshatbiniwale/blog-app-backend",
+			},
+		],
+	},
 ];
 
 const NavItem = (props) => {
