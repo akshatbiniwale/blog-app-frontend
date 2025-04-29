@@ -3,7 +3,7 @@ import axios from "axios";
 // making api requests to the backend
 // Axios is a promise-based HTTP client for JavaScript. It makes sending asynchronous HTTP requests to REST endpoints easier and helps you perform CRUD operations.
 
-const API_BASE_URL = process.env.API_BASE_URL;
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 export const signUp = async ({ name, email, password }) => {
     try {
